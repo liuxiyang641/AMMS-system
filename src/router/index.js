@@ -13,7 +13,7 @@ export default new Router({
             component: HelloWorld
         },
         {
-            path: '/conference/info',
+            path: '/conference/:id/info',
             name:'ConferenceInfo',
             component: ConferenceInfo
         }
