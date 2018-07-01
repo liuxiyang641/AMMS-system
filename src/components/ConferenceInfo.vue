@@ -9,42 +9,48 @@
             <b-container>
                 <!--会议简介-->
                 <b-row>
-                    <h2>会议简介</h2>
+                    <h2><i class="info circle icon"></i>会议简介</h2>
                     <p class="lead">&nbsp;&nbsp;{{abstract===''?'暂无简介':abstract}}</p>
                 </b-row>
                 <!--征文信息-->
                 <b-row>
-                    <h2>征文信息</h2>
+                    <h2><i class="file text icon"></i>征文信息</h2>
                     <p class="lead">&nbsp;&nbsp;{{essay_info===''?'暂无简介':essay_info}}</p>
                 </b-row>
                 <!--相关日期-->
                 <b-row>
-                    <h2>会议相关日期</h2>
+                    <h2> <i class="calendar outline icon"></i>会议相关日期</h2>
                     <p style="width: 100%">
                         <b-table striped hover bordered :items="items" :fields="fields" style="width: 40%"></b-table>
                     </p>
                 </b-row>
                 <!--日程安排-->
                 <b-row>
-                    <h2>日程安排</h2>
+                    <h2><i class="calendar icon"></i>日程安排</h2>
                     <br/>
-                    <p class="lead">&nbsp;&nbsp;{{schedule===''?'暂无简介':schedule}}</p>
+                    <p class="lead"> &nbsp;&nbsp;{{schedule===''?'暂无简介':schedule}}</p>
                 </b-row>
                 <!--组织机构-->
                 <b-row>
-                    <h2>主办单位</h2>
+                    <h2><i class="university icon"></i>主办单位</h2>
                     <br/>
                     <p class="text-primary lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
                 </b-row>
+                <!--会议地点-->
+                <b-row>
+                    <h2><i class="map signs icon"></i>会议地点</h2>
+                    <br/>
+                    <p class="lead"> &nbsp;&nbsp;{{address===''?'暂无简介':address}}</p>
+                </b-row>
                 <!--住宿交通-->
                 <b-row>
-                    <h2>住宿与交通</h2>
+                    <h2><i class="compass icon"></i>住宿与交通</h2>
                     <br/>
                     <p class="lead"> &nbsp;&nbsp;{{accommodation_transportation===''?'暂无简介':accommodation_transportation}}</p>
                 </b-row>
                 <!--联系方式-->
                 <b-row>
-                    <h2>联系方式</h2>
+                    <h2><i class="mail icon"></i>联系方式</h2>
                     <br/>
                     <address style="width: 100%">
                         <!--<strong style="font-size: larger">邮箱：</strong>-->
@@ -57,7 +63,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
+    import axios from 'axios';
+
     export default {
         name: "ConferenceInfo",
         data () {
@@ -145,15 +152,36 @@
                     }
                     this.essay_info=conferenceInfo.essay_info;
                     if (conferenceInfo.paper_deadline)
-                        this.items.push({相关日期: '截稿日期', 具体时间: conferenceInfo.paper_deadline});
+                    {
+                        let tempDate=new Date(conferenceInfo.paper_deadline);
+                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
+                        this.items.push({相关日期: '截稿日期', 具体时间: tempDateStr});
+                    }
                     if (conferenceInfo.acceptance_deadline)
-                        this.items.push({相关日期: '录用通知日期', 具体时间: conferenceInfo.acceptance_deadline});
+                    {
+                        let tempDate=new Date(conferenceInfo.acceptance_deadline);
+                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
+                        this.items.push({相关日期: '录用通知日期', 具体时间: tempDateStr});
+                    }
                     if (conferenceInfo.register_deadline)
-                        this.items.push({相关日期: '注册日期', 具体时间: conferenceInfo.register_deadline});
+                    {
+                        let tempDate=new Date(conferenceInfo.paper_deadline);
+                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
+                        this.items.push({相关日期: '注册日期', 具体时间: tempDateStr});
+                    }
                     if (conferenceInfo.start_time)
-                        this.items.push({相关日期: '会议开始日期', 具体时间: conferenceInfo.start_time});
+                    {
+                        let tempDate=new Date(conferenceInfo.paper_deadline);
+                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
+                        this.items.push({相关日期: '会议开始日期', 具体时间: tempDateStr});
+                    }
                     if (conferenceInfo.end_time)
-                        this.items.push({相关日期: '会议结束日期', 具体时间: conferenceInfo.end_time});
+                    {
+                        let tempDate=new Date(conferenceInfo.paper_deadline);
+                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
+                        this.items.push({相关日期: '会议结束日期', 具体时间: tempDateStr});
+                    }
+
                     this.schedule=conferenceInfo.schedule;
                     this.institution=conferenceInfo.institution;
                     this.accommodation_transportation=conferenceInfo.accommodation_transportation;
@@ -183,5 +211,8 @@
         margin-top: 0.7rem;
         margin-bottom: 2.0rem;
         width: 100%;
+    }
+    i{
+        color: #603811;
     }
 </style>
