@@ -15,25 +15,58 @@
         <b-row class="my-1">
           <b-col sm="5">用户名:</b-col>
           <b-col sm="10">
-            <b-form-input id="input-default" type="text" placeholder="Enter your name"></b-form-input>
+            <b-form-input v-model="email" id="input-default" type="text" placeholder="Enter your name"></b-form-input>
           </b-col>
         </b-row>
         <b-row class="my-1">
           <b-col sm="5">密码:</b-col>
           <b-col sm="10">
-            <b-form-input id="input-default" type="text" placeholder="Enter your password"></b-form-input>
+            <b-form-input v-model="passwd" id="input-default" type="text" placeholder="Enter your password"></b-form-input>
           </b-col>
         </b-row>
       </b-container>
+       <div slot="modal-footer" class="w-100">
+        <b-btn class="float-right" variant="primary" @click="login">
+           登录
+        </b-btn>
+       </div>
     </b-modal>
     <router-view />
   </div>
 </template>
 
 <script>
+import async from 'async'
 export default {
 	name: 'App',
-  components: {}
+  data: function() {
+    return {
+      email: '',
+      passwd: ''
+    }
+  },
+  components: {},
+  methods: {
+    login: function() {
+      var dat = {
+        email: this.$data.email,
+        passwd: this.$data.passwd
+      };
+      console.log(dat);
+      let urls = [
+        'http://193.112.111.199:9090/individual-login',
+        'http://193.112.111.199:9090/group-user-login',
+        'http://193.112.111.199:9090/group-internal-login'
+      ];
+      async.map(urls, function(url, callback) {
+        $.post(url, dat, function(data) {
+          callback(null, data);
+        });
+      }, function(err, res) {
+        console.log(res);
+      });
+    }
+  }
 }
 </script>
 

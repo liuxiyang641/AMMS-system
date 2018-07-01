@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import SearchResultIndex from '@/components/SearchResultIndex'
 import Index from '@/components/Index'
 import ConferenceInfoIndex from '@/components/ConferenceInfoIndex'
+import UserIndex from '@/components/UserIndex'
 
 Vue.use(Router)
 
@@ -19,6 +20,10 @@ export default new Router({
     {
       path: '/conference/:id/info',
       component: ConferenceInfoIndex
+    },
+    {
+      path: '/user',
+      component: UserIndex
     }
   ]
 })
