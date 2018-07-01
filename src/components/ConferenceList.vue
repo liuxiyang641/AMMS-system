@@ -28,7 +28,7 @@ export default {
 					{
 						GetConferences {
 							title
-							abstract
+							introduction
 							status
 							start_time
 							institution
@@ -36,7 +36,11 @@ export default {
 					}`
 				,
 				variables: {
-					keyword: this.Keyword
+					keyword: this.$route.query.keyword,
+					paper_ddl_begin: this.$route.query.paper_ddl_begin,
+					paper_ddl_end: this.$route.query.paper_ddl_end,
+					start_time_begin: this.$route.query.start_time_begin,
+					start_time_end: this.$route.query.start_time_end
 				}
 			},
 			(response) => {

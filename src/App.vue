@@ -9,7 +9,7 @@
 import ConferenceList from '@/components/ConferenceList'
 
 export default {
-  name: 'App',
+	name: 'App',
 	components: { 
 		ConferenceList
 	}
