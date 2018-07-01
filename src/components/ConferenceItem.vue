@@ -1,5 +1,5 @@
 <template>
-  <a v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
+  <a v-bind:href="'/#/conference/' + conference.conference_id + '/info'" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
       <div class="center aligned content">
         <div class="header"> {{ conference.title }} </div>
         <div class="meta"> {{ conference.institution }} </div>
@@ -32,6 +32,9 @@ export default {
 </script>
 
 <style scoped>
+  a {
+    text-decoration: none;
+  }
   i {
     margin-left: 5%;
   }

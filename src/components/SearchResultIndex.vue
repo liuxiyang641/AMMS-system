@@ -52,6 +52,7 @@ export default {
 							status
 							start_time
 							institution
+              conference_id
 						}
 					}`, this.$route.query.keyword, this.$route.query.paper_ddl_begin ,this.$route.query.paper_ddl_end, this.$route.query.start_time_begin, this.$route.query.start_time_end)				
 			},
