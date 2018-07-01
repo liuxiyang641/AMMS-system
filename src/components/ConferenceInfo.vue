@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header text-center">
             <h1 class="modal-title" style="width: 100%">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
-                <b-badge style="font-size: smaller" :variant=variant_class>{{status}}</b-badge>
+                <b-badge ref="mbadge" style="font-size: smaller" :variant=variant_class>{{status}}</b-badge>
             </h1>
         </div>
         <div class="modal-body">
@@ -134,7 +134,8 @@
                             this.status='会议中';
                             break;
                         case 5:
-                            this.variant_class='danger';
+                            this.variant_class='';
+                            this.$refs.mbadge.style.backgroundColor='deeppink';
                             this.status='会议完成';
                             break;
                         default:
