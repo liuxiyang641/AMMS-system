@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import ConferenceList from '@/components/ConferenceList'
-
 export default {
 	name: 'App',
   components: {}

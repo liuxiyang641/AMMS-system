@@ -1,22 +1,27 @@
 <template>
-  <div class="ui container">    
-	  <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
+  <div class="ui container">
+    <!--<SearchPanel></SearchPanel>-->
+    <div class="ui three cards">
+      <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
+    </div>
 	  <b-pagination :total-rows="conferences.length" :per-page="perPage" v-model="currentPage"></b-pagination>
   </div>
 </template>
 
 <script>
 import ConferenceItem from '@/components/ConferenceItem'
+import SearchPanel from '@/components/search-panel'
 
 export default {
 	name: 'ConferenceList',
 	components: {
-		ConferenceItem
+		ConferenceItem,
+    SearchPanel
 	},
 	data: function () {
 		return {
 			currentPage: 1,
-			perPage: 10,
+			perPage: 12,
 			page: [],
 			conferences: []
 		}

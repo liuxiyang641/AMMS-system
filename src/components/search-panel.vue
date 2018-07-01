@@ -51,6 +51,7 @@ Vue.use(BootstrapVue);
 export default {
 
     //注册组件
+    name: 'SearchPanel',
 
     components: {
 		
