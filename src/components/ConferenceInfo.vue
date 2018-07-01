@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header text-center">
             <h1 class="modal-title" style="width: 100%">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
-                <b-badge style="font-size: smaller" variant="info">{{status}}</b-badge>
+                <b-badge style="font-size: smaller" :variant=variant_class>{{status}}</b-badge>
             </h1>
         </div>
         <div class="modal-body">
@@ -73,7 +73,8 @@
 
                 accommodation_transportation:'',
                 contact_us:'',
-                address:''
+                address:'',
+                variant_class:''
             }
         },
         methods:{
@@ -108,14 +109,39 @@
                             }`
                         ,
                         variables: {
-                            // id:this.$route.params.id
-                            id:2
+                            id:this.$route.params.id
                         }
                     });
                     let conferenceInfo = res.data.data.GetConferences[0];
                     this.title=conferenceInfo.title;
                     this.abstract=conferenceInfo.introduction;
-                    this.status=conferenceInfo.status;
+                    switch (Number(conferenceInfo.status)){
+                        case 0:
+                            this.variant_class='primary';
+                            this.status='投稿中';
+                            break;
+                        case 2:
+                            this.variant_class='info';
+                            this.status='注册中';
+                            break;
+                        case 1:
+                        case 3:
+                            this.variant_class='secondary';
+                            this.status='截止注册';
+                            break;
+                        case 4:
+                            this.variant_class='success';
+                            this.status='会议中';
+                            break;
+                        case 5:
+                            this.variant_class='danger';
+                            this.status='会议完成';
+                            break;
+                        default:
+                            this.variant_class='warning';
+                            this.status='error';
+                            break;
+                    }
                     this.essay_info=conferenceInfo.essay_info;
                     if (conferenceInfo.paper_deadline)
                         this.items.push({相关日期: '截稿日期', 具体时间: conferenceInfo.paper_deadline});
