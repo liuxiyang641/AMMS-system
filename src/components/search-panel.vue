@@ -1,20 +1,6 @@
 <template>
 
     <div>
-		<b-container fluid>
-    <b-row class="my-1">
-      <b-col sm="1.7"><label>截止时间:从</label></b-col>
-      <b-col sm="4"><b-form-input v-model="last_time_from" type="date"></b-form-input></b-col>
-      <b-col sm="0.3"><label>到</label></b-col>
-      <b-col sm="4"><b-form-input v-model="last_time_to" type="date"></b-form-input></b-col>,
-    </b-row>
-    <b-row class="my-1">
-      <b-col sm="1.7"><label>会议时间:从</label></b-col>
-      <b-col sm="4"><b-form-input v-model="begin_time_from" type="date"></b-form-input></b-col>
-      <b-col sm="0.3"><label>到</label></b-col>
-      <b-col sm="4"><b-form-input v-model="begin_time_to" type="date"></b-form-input></b-col>;
-    </b-row>
-  </b-container>
         <div class="search-input">
             <input type="text" v-model="keyword" @keyup="get($event)" @keydown.enter="search()">
             <span class="search-reset" @click="clearInput()">&times;</span>
@@ -33,6 +19,30 @@
             </div>
 
         </div>
+		<h5></h5>
+		<div style="float:left">
+  			<b-btn v-b-toggle.collapse1 variant="primary">更多搜索</b-btn>
+  				<b-collapse id="collapse1" class="mt-2">
+    			<b-card>
+      			
+    <b-container fluid>
+    <b-row class="my-1">
+      <b-col sm="1.7"><label>截止时间:从</label></b-col>
+      <b-col sm="4"><b-form-input v-model="last_time_from" type="date"></b-form-input></b-col>
+      <b-col sm="0.3"><label>到</label></b-col>
+      <b-col sm="4"><b-form-input v-model="last_time_to" type="date"></b-form-input></b-col>,
+    </b-row>
+    <b-row class="my-1">
+      <b-col sm="1.7"><label>会议时间:从</label></b-col>
+      <b-col sm="4"><b-form-input v-model="begin_time_from" type="date"></b-form-input></b-col>
+      <b-col sm="0.3"><label>到</label></b-col>
+      <b-col sm="4"><b-form-input v-model="begin_time_to" type="date"></b-form-input></b-col>;
+    </b-row>
+  </b-container>
+      			
+    </b-card>
+  </b-collapse>
+</div>
 
     </div>
 
