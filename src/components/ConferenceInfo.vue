@@ -83,11 +83,11 @@
                 {
                     const res = await axios.post('http://192.144.136.166:4040/graphql', {
                         query: `
-                            query GetConferenceById($id:Int){
-                                  GetConferenceById(id:$id){
+                            query GetConferences($id:Int){
+                                  GetConferences(id:$id){
                                     conference_id,
                                     title,
-                                    abstract,
+                                    introduction,
                                     status,
                                     essay_info,
 
@@ -108,12 +108,13 @@
                             }`
                         ,
                         variables: {
-                            id:this.$route.params.id
+                            // id:this.$route.params.id
+                            id:2
                         }
                     });
-                    let conferenceInfo = res.data.data.GetConferenceById;
+                    let conferenceInfo = res.data.data.GetConferences[0];
                     this.title=conferenceInfo.title;
-                    this.abstract=conferenceInfo.abstract;
+                    this.abstract=conferenceInfo.introduction;
                     this.status=conferenceInfo.status;
                     this.essay_info=conferenceInfo.essay_info;
                     if (conferenceInfo.paper_deadline)
