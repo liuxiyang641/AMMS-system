@@ -1,56 +1,56 @@
 <template>
     <div class="modal-content">
         <div class="modal-header text-center">
-            <h1 class="modal-title" style="width: 100%">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
-                <b-badge ref="mbadge" style="font-size: smaller" :variant=variant_class>{{status}}</b-badge>
-            </h1>
+            <h2 class="modal-title" style="width: 100%">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
+                <b-badge ref="mbadge" :variant=variant_class>{{status}}</b-badge>
+            </h2>
         </div>
         <div class="modal-body">
             <b-container>
                 <!--会议简介-->
                 <b-row>
-                    <h2><i class="info circle icon"></i>会议简介</h2>
+                    <h4><i class="info circle icon"></i>会议简介</h4>
                     <p class="lead">&nbsp;&nbsp;{{abstract===''?'暂无简介':abstract}}</p>
                 </b-row>
                 <!--征文信息-->
                 <b-row>
-                    <h2><i class="file text icon"></i>征文信息</h2>
+                    <h4><i class="file text icon"></i>征文信息</h4>
                     <p class="lead">&nbsp;&nbsp;{{essay_info===''?'暂无简介':essay_info}}</p>
                 </b-row>
                 <!--相关日期-->
                 <b-row>
-                    <h2> <i class="calendar outline icon"></i>会议相关日期</h2>
+                    <h4> <i class="calendar outline icon"></i>会议相关日期</h4>
                     <p style="width: 100%">
                         <b-table striped hover bordered :items="items" :fields="fields" style="width: 40%"></b-table>
                     </p>
                 </b-row>
                 <!--日程安排-->
                 <b-row>
-                    <h2><i class="calendar icon"></i>日程安排</h2>
+                    <h4><i class="calendar icon"></i>日程安排</h4>
                     <br/>
                     <p class="lead"> &nbsp;&nbsp;{{schedule===''?'暂无简介':schedule}}</p>
                 </b-row>
                 <!--组织机构-->
                 <b-row>
-                    <h2><i class="university icon"></i>主办单位</h2>
+                    <h4><i class="university icon"></i>主办单位</h4>
                     <br/>
                     <p class="text-primary lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
                 </b-row>
                 <!--会议地点-->
                 <b-row>
-                    <h2><i class="map signs icon"></i>会议地点</h2>
+                    <h4><i class="map signs icon"></i>会议地点</h4>
                     <br/>
                     <p class="lead"> &nbsp;&nbsp;{{address===''?'暂无简介':address}}</p>
                 </b-row>
                 <!--住宿交通-->
                 <b-row>
-                    <h2><i class="compass icon"></i>住宿与交通</h2>
+                    <h4><i class="compass icon"></i>住宿与交通</h4>
                     <br/>
                     <p class="lead"> &nbsp;&nbsp;{{accommodation_transportation===''?'暂无简介':accommodation_transportation}}</p>
                 </b-row>
                 <!--联系方式-->
                 <b-row>
-                    <h2><i class="mail icon"></i>联系方式</h2>
+                    <h4><i class="mail icon"></i>联系方式</h4>
                     <br/>
                     <address style="width: 100%">
                         <!--<strong style="font-size: larger">邮箱：</strong>-->

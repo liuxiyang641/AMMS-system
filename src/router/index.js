@@ -1,22 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import ConferenceInfo from '@/components/ConferenceInfo'
+import SearchResultIndex from '@/components/SearchResultIndex'
+import Index from '@/components/Index'
+import ConferenceInfoIndex from '@/components/ConferenceInfoIndex'
+import UserIndex from '@/components/UserIndex'
 
 Vue.use(Router)
 
 export default new Router({
-    routes: [
-        {
-            path: '/',
-            name: 'HelloWorld',
-            component: HelloWorld
-        },
-        {
-            path: '/conference/:id/info',
-            name:'ConferenceInfo',
-            component: ConferenceInfo
-        }
-
-    ]
+  routes: [
+    {
+      path: '/',
+      component: Index
+    },
+    {
+      path: '/search',
+      component: SearchResultIndex
+    },
+    {
+      path: '/conference/:id/info',
+      component: ConferenceInfoIndex
+    },
+    {
+      path: '/user',
+      component: UserIndex
+    }
+  ]
 })
