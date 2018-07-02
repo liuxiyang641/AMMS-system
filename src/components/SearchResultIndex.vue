@@ -28,7 +28,7 @@
 			}
 		},
 		mounted: function() {
-				this.search();
+			this.search();
 		},
 		watch: {
 			currentPage: function (newVal) {
