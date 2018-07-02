@@ -42,7 +42,7 @@ export default {
 
     search: function() {
        console.log(JSON.stringify(this.$route.query));
-		   $.get('http://192.144.136.166:4040/graphql', 
+		   $.get('http://192.144.136.166:4040/graphql',
 			 {
 				query: util.format(`
 					{
@@ -54,7 +54,7 @@ export default {
 							institution
               conference_id
 						}
-					}`, this.$route.query.keyword, this.$route.query.paper_ddl_begin ,this.$route.query.paper_ddl_end, this.$route.query.start_time_begin, this.$route.query.start_time_end)				
+					}`, this.$route.query.keyword, this.$route.query.paper_ddl_begin ,this.$route.query.paper_ddl_end, this.$route.query.start_time_begin, this.$route.query.start_time_end)
 			},
 			  (response) => {
 				  this.conferences = response.data.GetConferences;

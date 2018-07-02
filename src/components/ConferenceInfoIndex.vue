@@ -8,6 +8,7 @@
         <b-tab title="注册会议">
         </b-tab>
         <b-tab title="投稿">
+            <PaperSubmission></PaperSubmission>
         </b-tab>
         <b-tab title="我的投稿">
         </b-tab>
@@ -17,11 +18,15 @@
 </template>
 
 <script>
-  import ConferenceInfo from '@/components/ConferenceInfo'
-  export default {
-    name: 'ConferenceInfoIndex',
-    components: {
-      ConferenceInfo
+    import ConferenceInfo from '@/components/ConferenceInfo';
+    import PaperSubmission from "./paper-submission";
+
+    export default {
+        name: 'ConferenceInfoIndex',
+        components: {
+            PaperSubmission,
+            ConferenceInfo
+        }
     }
-  }
+
 </script>
