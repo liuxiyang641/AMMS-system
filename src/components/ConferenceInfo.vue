@@ -195,6 +195,11 @@
         },
         created: function () {
             this.GetConferenceInfo();
+        },
+        watch:{
+            '$route.params': function () {
+                this.GetConferenceInfo();
+            }
         }
     }
 </script>
