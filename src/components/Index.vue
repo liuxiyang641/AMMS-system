@@ -6,14 +6,14 @@
 </template>
 
 <script>
-import SearchPanel from '@/components/search-panel'
 
-export default {
-	name: 'Index',
-	components: {
-    SearchPanel
-	}
-}
+  import SearchPanel from '@/components/SearchPanel'
+  export default {
+  	name: 'Index',
+  	components: {
+      SearchPanel
+  	}
+  }
 
 </script>
 
