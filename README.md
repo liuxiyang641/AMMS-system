@@ -1,4 +1,4 @@
-# academic_meeting_manage_system_frontend
+﻿# academic_meeting_manage_system_frontend
 
 > 学术会议管理平台前端项目
 
