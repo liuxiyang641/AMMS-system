@@ -1,5 +1,5 @@
 <template>
-  <a v-bind:href="'/#/conference/' + conference.conference_id + '/info'" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
+  <a v-bind:href="'/#/conference/' + conference.conference_id" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
       <div class="center aligned content">
         <div class="header"> {{ conference.title }} </div>
         <div class="meta"> {{ conference.institution }} </div>

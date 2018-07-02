@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="mb-4">
 		<div class="search-input" style="display:inline-block;">
 		    <input type="text" v-model="keyword" @keyup="get($event)" @keydown.enter="search()">
 		    <span class="search-reset" @click="clearInput()">&times;</span>
@@ -21,18 +21,18 @@
 		<h5></h5>
 
 		<div style="display:inline-block;">
-			<b-btn v-b-toggle.collapse1 variant="primary">更多搜索</b-btn>
+			<b-btn v-b-toggle.collapse1 variant="primary">高级搜索</b-btn>
 			<b-collapse id="collapse1" class="mt-4">
 				<b-card>		
 					<b-container fluid>
 						<b-row class="my-1">
-							<b-col sm="1.7"><label>截止时间:从&nbsp;&nbsp;</label></b-col>
+							<b-col sm="1.7"><label>截止时间: 从&nbsp;&nbsp;</label></b-col>
 							<b-col sm="4.2"><b-form-input v-model="last_time_from" type="date"></b-form-input></b-col>
 							<b-col sm="0.3"><label>&nbsp;&nbsp;到&nbsp;&nbsp;</label></b-col>
 							<b-col sm="4.2"><b-form-input v-model="last_time_to" type="date"></b-form-input></b-col>
 						</b-row>
 						<b-row class="my-1">
-							<b-col sm="1.7"><label>会议时间:从&nbsp;&nbsp;</label></b-col>
+							<b-col sm="1.7"><label>会议时间: 从&nbsp;&nbsp;</label></b-col>
 							<b-col sm="4.2"><b-form-input v-model="begin_time_from" type="date"></b-form-input></b-col>
 							<b-col sm="0.3"><label>&nbsp;&nbsp;到&nbsp;&nbsp;</label></b-col>
 							<b-col sm="4.2"><b-form-input v-model="begin_time_to" type="date"></b-form-input></b-col>
@@ -46,54 +46,32 @@
 
 <script>
 export default {
-
-    //注册组件
     name: 'SearchPanel',
-
-    components: {
-		
-    },
-
     data: function() {
-
         return {
-		last_time_from:'',
-	  	last_time_to:'',
-	  	begin_time_from:'',
-	  	begin_time_to:'',
-      	types: [
-        	'text', 'password', 'email', 'number', 'url',
-        	'tel', 'date', `time`, 'range', 'color'
-      	],
-
-            myData: [],//用来接收ajax得到的数据
-
-            keyword: '',//v-model绑定的输入框的value
-
-            now: -1,
-
-            searchIndex: 0,
-
+		      last_time_from:'',
+	  	    last_time_to:'',
+	      	begin_time_from:'',
+	  	    begin_time_to:'',
+      	  types: [
+        	  'text', 'password', 'email', 'number', 'url',
+        	  'tel', 'date', `time`, 'range', 'color'
+      	  ],
+          myData: [],//用来接收ajax得到的数据
+          keyword: '',//v-model绑定的输入框的value
+          now: -1,
+          searchIndex: 0,
         }
-
     },
 
     methods: {
-
         // &event是实参，表示event对象
-
         get: function(ev) {
-
             // 如果按得键是上或者下，就不进行ajax
-
             if (ev.keyCode == 38 || ev.keyCode == 40) {
-
                 return;
-
             }
-
         },
-
         search: function() {
           this.$router.push({path:'/search', query:{
             keyword: this.keyword,
@@ -103,33 +81,20 @@ export default {
             start_time_end: this.begin_time_to
           }})
         },
-
         selectHover: function(index) {
-
             this.now = index
-
         },
-
         selectClick: function(index) {
-
             this.keyword = this.myData[index];
-
             this.search();
-
         },
-
         clearInput: function() {
             this.keyword = '';
         },
-
         getIndex: function(index) {
-
             this.searchIndex = index;
-
         }
-
     }
-
 }
 
 </script>
