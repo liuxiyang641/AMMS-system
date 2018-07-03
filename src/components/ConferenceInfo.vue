@@ -1,9 +1,10 @@
 <template>
     <div class="modal-content">
         <div class="modal-header text-center">
-            <h2 class="modal-title" style="width: 100%">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
+            <h2 class="modal-title">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
                 <b-badge ref="mbadge" :variant=variant_class>{{status}}</b-badge>
             </h2>
+			<button class="ui labeled basic button" @click="star"><i class="empty star icon"></i>收藏</button>
         </div>
         <div class="modal-body">
             <b-container>
@@ -81,7 +82,8 @@
                 accommodation_transportation:'',
                 contact_us:'',
                 address:'',
-                variant_class:''
+                variant_class:'',
+				conference_template:2,
             }
         },
         methods: {
@@ -168,7 +170,10 @@
              this.accommodation_transportation = conferenceInfo.accommodation_transportation;
              this.contact_us = conferenceInfo.contact_us;
              this.address = conferenceInfo.address;     
-          }
+          },
+		  star: function () {
+			
+		  }
         },
         created: function () {
             this.GetConferenceInfo();
@@ -182,10 +187,6 @@
 </script>
 
 <style scoped>
-    h1 {
-        align-content: center;
-        font-size: 2.5rem;
-    }
     .modal-header {
         margin-bottom: 20px;
     }
