@@ -49,7 +49,7 @@
             </div>
             <div class="ui error message" id="repeatPaper">
                 <div class="header">错误！</div>
-                <p>你的提交由于一些原因失败了</p>
+                <p>已存在重复论文</p>
             </div>
             <div class="ui warning message">
                 <div class="header">注意：</div>
@@ -61,20 +61,21 @@
 
 <script>
     import axios from 'axios';
+    const querystring = require('querystring');
     export default {
         name: "PaperSubmission",
         data () {
             return {
                 file:'',
-                file_status:'',
-                institution:'',
-                modify_description:'',
-                paper_abstract:'',
-                paper_author:'',
-                paper_name:'',
-                file_url:'',
-                conference_id:'',
-                user_id_set:'',
+                file_status:null,
+                institution:null,
+                modify_description:null,
+                paper_abstract:null,
+                paper_author:null,
+                paper_name:null,
+                file_url:null,
+                conference_id:null,
+                user_ids:null,
             }
         },
         methods: {
@@ -106,8 +107,9 @@
                 $('#errorSubmission').hide();
                 $('#repeatPaper').hide();
             },
-            submit: function(event) {
+            async submit (event) {
                 event.preventDefault();//取消默认行为
+                console.log()
                 this.hideAllMessage();
                 //检查必填项
                 if (!this.checkSubmission()) {
@@ -129,50 +131,56 @@
                     }
                 };
                 //先上传文件，再post所有投稿信息
-                axios.post('http://193.112.111.199:9090/upload-file', fileData, config).then((res) => {
-                    //处理返回的结果
-                    res=JSON.parse(res.data.replace(/'/g,`"`));
-                    if (res.status==='1'){
-                        //获取返回值，第二次post用到
-                        this.file_status=res.status;
-                        this.file_url=res.file_url;
-                    }
-                    else {
-                        $('#errorSubmission').show();
-                    }
-                }).catch((error) => {
-                    console.log(error);
-                    $('#errorSubmission').show();
-                }).then(() =>{
-                    console.log(this.file_status);
-                    console.log(this.file_url);
-                    axios.post('http://193.112.111.199:9090/contribute',{
-                        file_status: this.file_status,
-                        institution: this.institution,
-                        modify_description:'',
-                        paper_abstract:this.paper_abstract,
-                        paper_author:this.paper_author,
-                        paper_name:this.paper_name,
-                        file_url:this.file_url,
-                        conference_id:Number(this.$route.params.id),
-                        user_id_set:'1'
-                    }).then((res) => {
-                        //处理返回的结果
-                        if (res.data==='1'){            //重复论文提交
-                            $('#repeatPaper').show();
-                        }
-                        else if (res.data==='2'){           //提交成功
-                            $('.ui.success.message').show();
+                axios.post('http://193.112.111.199:9090/upload-file', fileData, config).then(
+                    (res)=>{
+                        res=JSON.parse(res.data.replace(/'/g,`"`));
+                        if (res.status==='1'){
+                            //获取返回值，第二次post用到
+                            this.file_status=res.status;
+                            this.file_url=res.file_url;
                         }
                         else {
-                            $('.ui.warning.message').show();        //无文件上传
+                            $('#errorSubmission').show();
                         }
-                    }).catch((error) => {
-                        console.log(error);
-                        $('#errorSubmission').show();
+                    }
+                ).catch((error) => {
+                    console.log(error);
+                    $('#errorSubmission').show();
+                }).then(
+                    ()=>{
+                        let config = {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                            }
+                        };
+                        let data={
+                            file_status: this.file_status,
+                            institution: this.institution,
+                            paper_abstract:this.paper_abstract,
+                            paper_author:this.paper_author,
+                            paper_name:this.paper_name,
+                            file_url:this.file_url,
+                            conference_id:this.$route.params.id,
+                            user_ids:'1'
+                        };
+                        //深渊无敌巨坑，axios与jQuery的post方法实现起来不一样！！要发送application/x-www-form-urlencoded，需要querystring
+                        axios.post('http://193.112.111.199:9090/contribute',querystring.stringify(data),config).then((res) => {
+                            //处理返回的结果
+                            console.log(res);
+                            if (res.data===1){            //重复论文提交
+                                $('#repeatPaper').show();
+                            }
+                            else if (res.data===2){           //提交成功
+                                $('.ui.success.message').show();
+                            }
+                            else {
+                                $('.ui.warning.message').show();        //无文件上传
+                            }
+                        }).catch((error) => {
+                            console.log(error);
+                            $('#errorSubmission').show();
+                        });
                     });
-                });
-
             },
 
         }

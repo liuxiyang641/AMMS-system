@@ -33,7 +33,7 @@
         </b-btn>
        </div>
     </b-modal>
-    <router-view />
+    <router-view v-bind:userid="this.id"/>
   </div>
 </template>
 
@@ -43,11 +43,12 @@ export default {
 	name: 'App',
   data: function() {
     return {
-      email: '',
-      password: '',
-      is_login: null,
-      username: null,
-      user_type: null 
+        email: '',
+        password: '',
+        is_login: null,
+        username: null,
+        user_type: null,
+        id: null
     }
   },
   components: {},
@@ -56,9 +57,10 @@ export default {
   },
   methods: {
     reset_bind: function() {
-      this.$data.is_login = this.session('is_login');
-      this.$data.username = this.session('username');
-      this.$data.user_type = this.session('user_type');
+        this.$data.is_login = this.session('is_login');
+        this.$data.username = this.session('username');
+        this.$data.user_type = this.session('user_type');
+        this.$data.user_type = this.session('id');
     },
     session: function(key) {
       return window.sessionStorage.getItem(key);
@@ -88,13 +90,14 @@ export default {
           callback(null, data);
         });
       }, function(err, res) {
-        console.log(res);
         for(var i = 0; i < res.length; i++) {
           var e = eval('(' + res[i] + ')');
+          console.log(res);
           if(parseInt(e.statuscode) == 1) {
            _setS('username', e.username);
            _setS('user_type', e.type);
            _setS('is_login', true);
+           _setS('id',e.id);
           }
         }
         if(!_session('is_login')) {
@@ -105,7 +108,7 @@ export default {
           window.location.reload();
         }
       });
-      
+
     },
     logout: function() {
       this.remS('is_login');
@@ -114,7 +117,7 @@ export default {
       window.location.href = '/';
     }
   }
-}
+};
 </script>
 
 
