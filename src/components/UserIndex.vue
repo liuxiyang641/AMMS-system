@@ -3,9 +3,10 @@
     <b-card no-body>
       <b-tabs pills card vertical>
         <b-tab title="个人信息" active>
+			<UserInfo></UserInfo>
         </b-tab>
         <b-tab title="发布会议">
-          <ReleaseConference></ReleaseConference>
+			<ReleaseConference></ReleaseConference>
         </b-tab>
         <b-tab title="我的投稿">
         </b-tab>
@@ -17,15 +18,16 @@
 </template>
 
 <script>
-  import ReleaseConference from '@/components/ReleaseConference'
-  export default {
-    name: "UserIndex",
-    components: {
-      ReleaseConference
-    }
-  }
+	import ReleaseConference from '@/components/ReleaseConference'
+	import UserInfo from '@/components/UserInfo'
+  
+	export default {
+		name: "UserIndex",
+		components: {
+			ReleaseConference, UserInfo
+		}
+	}
 </script>
 
 <style scoped>
-
 </style>

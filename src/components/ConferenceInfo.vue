@@ -34,7 +34,7 @@
                 <b-row>
                     <h4><i class="university icon"></i>主办单位</h4>
                     <br/>
-                    <p class="text-primary lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
+                    <p class="lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
                 </b-row>
                 <!--会议地点-->
                 <b-row>
@@ -84,122 +84,99 @@
                 variant_class:''
             }
         },
-        methods:{
-            async GetConferenceInfo()
-            {
-                try
-                {
-                    const res = await axios.post('http://192.144.136.166:4040/graphql', {
-                        query: `
-                            query GetConferences($id:Int){
-                                  GetConferences(id:$id){
-                                    conference_id,
-                                    title,
-                                    introduction,
-                                    status,
-                                    essay_info,
+        methods: {
+            async GetConferenceInfo() {
+               this.items = [];
+               const res = await axios.post('http://192.144.136.166:4040/graphql', {
+                 query: `
+                     query GetConferences($id: Int) {
+                        GetConferences(id: $id) {
+                         conference_id,
+                         title,
+                         introduction,
+                         status,
+                         essay_info,
 
-                                    paper_deadline,
-                                    acceptance_deadline,
-                                    register_deadline,
-                                    start_time,
-                                    end_time,
-                                    schedule,
-                                    institution,
-                                    paper_template_url,
-                                    register_fee,
+                         paper_deadline,
+                         acceptance_deadline,
+                         register_deadline,
+                         start_time,
+                         end_time,
+                         schedule,
+                         institution,
+                         paper_template_url,
+                         register_fee,
 
-                                    accommodation_transportation,
-                                    contact_us,
-                                    address
-                                    }
-                            }`
-                        ,
-                        variables: {
-                            id:this.$route.params.id
-                        }
-                    });
-                    let conferenceInfo = res.data.data.GetConferences[0];
-                    this.title=conferenceInfo.title;
-                    this.abstract=conferenceInfo.introduction;
-                    switch (Number(conferenceInfo.status)){
-                        case 0:
-                            this.variant_class='primary';
-                            this.status='投稿中';
-                            break;
-                        case 2:
-                            this.variant_class='info';
-                            this.status='注册中';
-                            break;
-                        case 1:
-                        case 3:
-                            this.variant_class='secondary';
-                            this.status='截止注册';
-                            break;
-                        case 4:
-                            this.variant_class='success';
-                            this.status='会议中';
-                            break;
-                        case 5:
-                            this.variant_class='';
-                            this.$refs.mbadge.style.backgroundColor='deeppink';
-                            this.status='会议完成';
-                            break;
-                        default:
-                            this.variant_class='warning';
-                            this.status='error';
-                            break;
-                    }
-                    this.essay_info=conferenceInfo.essay_info;
-                    if (conferenceInfo.paper_deadline)
-                    {
-                        let tempDate=new Date(conferenceInfo.paper_deadline);
-                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
-                        this.items.push({相关日期: '截稿日期', 具体时间: tempDateStr});
-                    }
-                    if (conferenceInfo.acceptance_deadline)
-                    {
-                        let tempDate=new Date(conferenceInfo.acceptance_deadline);
-                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
-                        this.items.push({相关日期: '录用通知日期', 具体时间: tempDateStr});
-                    }
-                    if (conferenceInfo.register_deadline)
-                    {
-                        let tempDate=new Date(conferenceInfo.paper_deadline);
-                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
-                        this.items.push({相关日期: '注册日期', 具体时间: tempDateStr});
-                    }
-                    if (conferenceInfo.start_time)
-                    {
-                        let tempDate=new Date(conferenceInfo.paper_deadline);
-                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
-                        this.items.push({相关日期: '会议开始日期', 具体时间: tempDateStr});
-                    }
-                    if (conferenceInfo.end_time)
-                    {
-                        let tempDate=new Date(conferenceInfo.paper_deadline);
-                        let tempDateStr=tempDate.getFullYear()+'/'+tempDate.getMonth()+'/'+tempDate.getDay()+'/'+tempDate.getHours()+':'+tempDate.getMinutes();
-                        this.items.push({相关日期: '会议结束日期', 具体时间: tempDateStr});
-                    }
-
-                    this.schedule=conferenceInfo.schedule;
-                    this.institution=conferenceInfo.institution;
-                    this.accommodation_transportation=conferenceInfo.accommodation_transportation;
-                    this.contact_us=conferenceInfo.contact_us;
-                    this.address=conferenceInfo.address;
-                } catch (e)
-                {
-                    console.log('err', e)
-                }
-            }
+                         accommodation_transportation,
+                         contact_us,
+                         address
+                      }
+                     }`,
+                 variables: {
+                     id:this.$route.params.id
+                 }
+             });
+             let conferenceInfo = res.data.data.GetConferences[0];
+             switch (Number(conferenceInfo.status)) {
+                 case 0:
+                     this.variant_class='primary';
+                     this.status='投稿中';
+                     break;
+                 case 2:
+                     this.variant_class='info';
+                     this.status='注册中';
+                     break;
+                 case 1:
+                 case 3:
+                     this.variant_class='secondary';
+                     this.status='截止注册';
+                     break;
+                 case 4:
+                     this.variant_class='success';
+                     this.status='会议中';
+                     break;
+                 case 5:
+                     this.variant_class='';
+                     this.$refs.mbadge.style.backgroundColor='deeppink';
+                     this.status='会议完成';
+                     break;
+                 default:
+                     this.variant_class='warning';
+                     this.status='error';
+                     break;
+             }
+             let date_anno = {
+               paper_deadline: '截稿日期',
+               acceptance_deadline: '录用通知日期',
+               register_deadline: '会议注册日期',
+               start_time: '会议开始日期',
+               end_time: '会议结束日期',
+             };
+             for(var key in conferenceInfo) {
+               if(key.slice(-8) == 'deadline' || key.slice(-4) == 'time') {
+                 this.items.push({
+                   相关日期: date_anno[key],
+                   具体时间: conferenceInfo[key].split('T')[0]
+                 })
+               }
+             }
+             this.title = conferenceInfo.title;
+             this.abstract = conferenceInfo.introduction;
+             this.essay_info = conferenceInfo.essay_info;
+             this.schedule = conferenceInfo.schedule;
+             this.institution = conferenceInfo.institution;
+             this.accommodation_transportation = conferenceInfo.accommodation_transportation;
+             this.contact_us = conferenceInfo.contact_us;
+             this.address = conferenceInfo.address;
+          }
         },
         created: function () {
             this.GetConferenceInfo();
         },
-        watch:{
-            '$route.params': function () {
-                this.GetConferenceInfo();
-            }
+        watch: {
+          '$route.params': function() {
+            this.GetConferenceInfo();
+          }
         }
     }
 </script>

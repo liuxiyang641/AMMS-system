@@ -1,5 +1,6 @@
 <template>
   <div class="ui container">
+    <SearchPanel></SearchPanel>
     <b-card no-body>
       <b-tabs pills card vertical>
         <b-tab title="会议信息" active>
@@ -17,10 +18,13 @@
 </template>
 
 <script>
+  import ConferenceInfo from '@/components/ConferenceInfo'
+  import SearchPanel from '@/components/SearchPanel'
   export default {
     name: "ConferenceIndex",
     components: {
-      ConferenceInfo
+      ConferenceInfo,
+      SearchPanel
     }
   }
 </script>
