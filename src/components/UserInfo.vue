@@ -23,16 +23,11 @@
 
     export default {
         name: "ConferenceInfo",
-        data () {
-            return {
-                userInfo: {}
-            }
-        },
         methods: {
-            async groupInternalUsers() {
+			async groupInternalUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
-					query: `query groupInternalUsers($name: String) {
-						groupInternalUsers(name: $name) {
+					query: `query groupInternalUsers($id: String) {
+						groupInternalUsers(id: $id) {
 							group {
 								companyName
 							}
@@ -41,55 +36,53 @@
 						}
 					}`,
 					variables: {
-						name:this.$route.params.id
+						id:this.$route.params.id
 					}
 				});
-				this.userInfo = res.data.data.groupInternalUsers[0];
+				return res.data.data.groupInternalUsers[0];
 			},
 			async groupUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
-					query: `query groupUsers($companyName: String) {
-						groupUsers(companyName: $companyName) {
+					query: `query groupUsers($id: String) {
+						groupUsers(id: $id) {
 							email
 							contacterName
 							contacterPhone
 							companyName
 							communicationAddress
 							corporationPhotoUrl
-							groupinternaluserSet {
-								id
-							}
 						}
 					}`,
 					variables: {
-						companyName:this.$route.params.id
+						id:this.$route.params.id
 					}
 				});
-				this.userInfo = res.data.data.groupUsers[0];
+				return res.data.data.groupUsers[0];
 			},
 			async individualUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
-					query: `query individualUsers($name: String) {
-						individualUsers(name: $name) {
+					query: `query individualUsers($id: String) {
+						individualUsers(id: $id) {
 							email
 							name
 						}
 					}`,
 					variables: {
-						name:this.$route.params.id
+						id:this.$route.params.id
 					}
 				});
-				this.userInfo = res.data.data.individualUsers[0];
+				return res.data.data.individualUsers[0];
 			},
 			getUserInfo: function () {
+				this.type = this.$route.params.type;
 				switch (this.$route.params.type) {
-					case 'individual_user': this.individualUsers(); break;
-					case 'group_user': this.groupUsers(); break;
-					case 'group_internal_user': this.groupInternalUsers(); break;
+					case 'individual_user': this.userInfo = this.individualUsers(); break;
+					case 'group_user': this.userInfo = this.groupUsers(); break;
+					case 'group_internal_user': this.userInfo = this.groupInternalUsers(); break;
 				}
 			}
-        },
-        created: function () {
+		},
+		created: function () {
 			this.getUserInfo();
         },
         watch: {

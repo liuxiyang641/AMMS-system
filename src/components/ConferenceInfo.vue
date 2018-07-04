@@ -4,7 +4,10 @@
             <h2 class="modal-title">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
                 <b-badge ref="mbadge" :variant=variant_class>{{status}}</b-badge>
             </h2>
-			<button class="ui labeled basic button" @click="star"><i class="empty star icon"></i>收藏</button>
+			<span v-if="session('id') && session('user_type') == 'individual_user'">
+				<button v-if="!favorite" class="ui labeled basic button" @click="ChangeUserFavorite"><i class="empty star icon"></i>收藏</button>
+				<button v-else class="ui labeled basic button" @click="ChangeUserFavorite"><i class="star icon"></i>取消收藏</button>
+			</span>
         </div>
         <div class="modal-body">
             <b-container>
@@ -84,9 +87,35 @@
                 address:'',
                 variant_class:'',
 				conference_template:2,
+				favorite: false
             }
         },
         methods: {
+			ChangeUserFavorite: function() {
+				$.post('http://192.144.153.164:9000/collection', {
+					conferenceid: this.$route.params.id,
+					userid: this.session('id')
+				}, (data) => {
+					console.log(data);
+					if(data == '取消收藏' || data == '收藏成功')
+						this.IsUserFavorite();
+					else
+						alert(data);
+				});
+			},
+			async IsUserFavorite() {
+				const res = await axios.get('http://192.144.153.164:9000/collection',
+				{
+					params: {
+						conferenceid: this.$route.params.id,
+						userid: this.session('id')
+					}
+				}).then((response) => {
+					this.favorite = response.data;
+				}).catch((err) => {
+					console.log(err);
+				});
+			},
             async GetConferenceInfo() {
                this.items = [];
                const res = await axios.post('http://192.144.136.166:4040/graphql', {
@@ -171,18 +200,18 @@
              this.contact_us = conferenceInfo.contact_us;
              this.address = conferenceInfo.address;     
           },
-		  star: function () {
-			
-		  }
+		  session: function(key) {
+			  return window.sessionStorage.getItem(key);
+			},
         },
         created: function () {
             this.GetConferenceInfo();
         },
-        watch: {
-          '$route.params': function() {
-            this.GetConferenceInfo();
-          }
-        }
+        watch:{
+            '$route.params': function () {
+                this.GetConferenceInfo();
+            }
+        },
     }
 </script>
 

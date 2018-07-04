@@ -5,7 +5,7 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav class="ml-auto">
-          <b-button v-bind:href="'/#/user/' + session('user_type') + '/' + username" v-if="is_login" class="mr-2"> {{username}} </b-button>
+          <b-button v-bind:href="'/#/user/' + session('user_type') + '/' + user_id" v-if="is_login" class="mr-2"> {{username}} </b-button>
           <b-button v-else="is_login" v-b-modal.modal1 class="mr-2">登录</b-button>
           <b-button v-if="is_login" @click="logout">登出</b-button>
           <b-button v-else="is_login">注册</b-button>
@@ -47,7 +47,8 @@ export default {
       password: '',
       is_login: null,
       username: null,
-      user_type: null 
+      user_type: null,
+	  user_id: 0
     }
   },
   components: {},
@@ -56,9 +57,10 @@ export default {
   },
   methods: {
     reset_bind: function() {
-      this.$data.is_login = this.session('is_login');
-      this.$data.username = this.session('username');
-      this.$data.user_type = this.session('user_type');
+      this.is_login = this.session('is_login');
+      this.username = this.session('username');
+      this.user_type = this.session('user_type');
+	  this.user_id = this.session('id');
     },
     session: function(key) {
       return window.sessionStorage.getItem(key);
@@ -71,8 +73,8 @@ export default {
     },
     login: function() {
       var account = {
-        email: this.$data.email,
-        password: this.$data.password
+        email: this.email,
+        password: this.password
       };
       var router = this.$router;
       var refs = this.$refs;
@@ -95,6 +97,7 @@ export default {
            _setS('username', e.username);
            _setS('user_type', e.type);
            _setS('is_login', true);
+		   _setS('id', e.id);
           }
         }
         if(!_session('is_login')) {
