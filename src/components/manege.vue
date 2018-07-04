@@ -1,180 +1,107 @@
 <template>
-  <div>
-    <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-      <b-form-group id="exampleInputGroup1"
-                    label="会议标题"
-                    label-for="exampleInput1">
-        <b-form-input id="exampleInput1"
-                      type="text"
-                      v-model="title"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup2"
-                    label="会议简介"
-                    label-for="exampleInput2">
-        <b-form-input id="exampleInput2"
-                      type="text"
-                      v-model="brief"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup3"
-                    label="征文信息"
-                    label-for="exampleInput3">
-        <b-form-input id="exampleInput3"
-                      type="text"
-                      v-model="zhengwen"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup4"
-                    label="截稿日期"
-                    label-for="exampleInput4" description="格式：2018-6-5">
-        <b-form-input id="exampleInput4"
-                      type="text"
-                      v-model="deadline"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup4"
-                    label="录用通知日期"
-                    label-for="exampleInput4" description="格式：2018-6-5">
-        <b-form-input id="exampleInput4"
-                      type="text"
-                      v-model="inform"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup4"
-                    label="注册日期"
-                    label-for="exampleInput4" description="格式：2018-6-5">
-        <b-form-input id="exampleInput4"
-                      type="text"
-                      v-model="sign"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup4"
-                    label="会议注册日期"
-                    label-for="exampleInput4" description="格式：2018-6-5">
-        <b-form-input id="exampleInput4"
-                      type="text"
-                      v-model="meetsign"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup4"
-                    label="日程安排"
-                    label-for="exampleInput4">
-        <b-form-input id="exampleInput4"
-                      type="text"
-                      v-model="routing"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup5"
-                    label="组织机构"
-                    label-for="exampleInput5">
-        <b-form-input id="exampleInput5"
-                      type="text"
-                      v-model="authority"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup6"
-                    label="论文模板"
-                    label-for="exampleInput6">
-        <b-form-input id="exampleInput6"
-                      type="text"
-                      v-model="moban"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup7"
-                    label="注册费用"
-                    label-for="exampleInput7">
-        <b-form-input id="exampleInput7"
-                      type="text"
-                      v-model="cost"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup8"
-                    label="住宿交通"
-                    label-for="exampleInput8">
-        <b-form-input id="exampleInput8"
-                      type="text"
-                      v-model="room"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-form-group id="exampleInputGroup1"
-                    label="联系信息"
-                    label-for="exampleInput1">
-        <b-form-input id="exampleInput1"
-                      type="text"
-                      v-model="contact"
-                      required>
-        </b-form-input>
-      </b-form-group>
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Reset</b-button>
-    </b-form>
+  <div class="modal-content">
+    <table class="ui compact celled definition table">
+      <thead class="full-width" align="center">
+      <tr>
+        <th width="90">序号</th>
+        <th width="90">论文名称</th>
+        <th width="90">论文版本</th>
+        <th width="90">作者</th>
+        <th width="90">操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="cont" align="center" v-for="paper in paperInfo">
+        <td>{{paper.paper_id}}</td>
+        <td>{{paper.paper_name}}</td>
+        <td>{{paper.version}}</td>
+        <td>{{paper.paper_author}}</td>
+        <td>
+          <button class="ui button" v-on:click="mod">重新上传</button>
+        </td>
+      </tr>
+      </tbody>
+      <tfoot class="full-width">
+      <tr>
+        <th></th>
+        <th colspan="4">
+          <div class="ui right floated small primary labeled icon button" @click="">
+            <i class="user icon"></i> 新的上传
+          </div>
+        </th>
+      </tr>
+      </tfoot>
+    </table>
   </div>
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
+    name: "GetPaper",
     data () {
       return {
-        form: {
-          title:'',
-          brief:'',
-          zhengwen:'',
-          routing:'',
-          deadline:'',
-          inform:'',
-          sign:'',
-          meetsign:'',
-          authority:'',
-          moban:'',
-          room:'',
-          cost:'',
-          contact:''
-        },
-        show: true
+        file:'',
+        file_status:null,
+        institution:null,
+        modify_description:null,
+        paper_abstract:null,
+        paper_author:null,
+        paper_name:null,
+        file_url:null,
+        conference_id:null,
+        paperInfo:[],
+        user_ids:window.sessionStorage.getItem('id'),
       }
     },
-    methods: {
-      onSubmit (evt) {
-        evt.preventDefault();
-        alert("提交成功");
-      },
-      onReset (evt) {
-        evt.preventDefault();
-        /* Reset our form values */
-        this.title = '';
-        this.brief = '';
-        this.zhengwen= '';
-        this.routing= '';
-        this.deadline = '';
-        this.inform = '';
-        this.sign= '';
-        this.meetsign= '';
-        this.contact= '';
-        this.authority = '';
-        this.moban = '';
-        this.room= '';
-        this.cost= '';
-        /* Trick to reset/clear native browser form validation state */
-        this.show = false;
-        this.$nextTick(() => { this.show = true });
+
+    methods:{
+      async GetPaper() {
+        try {
+          const res = await axios.post('http://192.144.136.166:4040/graphql', {
+            query: `
+                            query GetPaper($userid:Int,$confid:Int){
+                                  GetPaper(individual_user_id:$userid,conference_id:$confid){
+                                    paper_id,
+                                    paper_name,
+                                    version,
+                                    paper_author
+                                    }
+                            }`
+            ,
+            variables: {
+              // id:this.$route.params.id
+              userid: 1,
+              confid: 1
+            }
+          });
+          this.paperInfo = res.data.data.GetPaper;
+          console.log(res.data.data.GetPaper);
+        } catch (e) {
+          console.log('err', e)
+        }
       }
+    },
+    created: function () {
+      this.GetPaper();
     }
   }
 </script>
 
-<style scoped>
 
+<style scoped>
+  .fileinput-button {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+  }
+
+  .fileinput-button input{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+  }
 </style>
+
