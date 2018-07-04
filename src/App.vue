@@ -11,15 +11,17 @@
       </b-collapse>
     </b-navbar>
 
-    <manege></manege>
+    <status></status>
   </div>
 </template>
 
 <script>
-  import manege from '@/components/manege'
+  //import manege from '@/components/manege'
+  import status from '@/components/status'
   export default {
     name: 'App',
-    components:{manege}
+    //components:{manege},
+    components:{status}
   }
 </script>
 
