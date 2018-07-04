@@ -1,13 +1,16 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+  <div>
+    <personal_meeting_registration></personal_meeting_registration>
   </div>
 </template>
 
 <script>
+import personal_meeting_registration from './components/personal_meeting_registration.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components:{
+  personal_meeting_registration,
+  }
 }
 </script>
 
