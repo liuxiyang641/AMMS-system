@@ -4,6 +4,7 @@ import SearchResultIndex from '@/components/SearchResultIndex'
 import Index from '@/components/Index'
 import ConferenceIndex from '@/components/ConferenceIndex'
 import UserIndex from '@/components/UserIndex'
+import GetPaper from '@/components/manege'
 
 Vue.use(Router)
 
@@ -11,7 +12,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: SearchResultIndex
+      component: Index
     },
     {
       path: '/search',
