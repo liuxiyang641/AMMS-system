@@ -3,7 +3,7 @@
 		<div class="search-input" style="display:inline-block;">
 		    <input type="text" v-model="keyword" @keyup="get($event)" @keydown.enter="search()">
 		    <span class="search-reset" @click="clearInput()">&times;</span>
-		    <button class="search-btn" @click="search()">搜一下</button>
+        <button class="search-btn" @click="search()">搜索会议</button>
 		    <div class="search-select">
 		        <transition-group name="itemfade" tag="ul" mode="out-in" v-cloak>
 
@@ -17,8 +17,6 @@
 
 		    </div>
 		</div>
-
-		<h5></h5>
 
 		<div style="display:inline-block;">
 			<b-btn v-b-toggle.collapse1 variant="primary">高级搜索</b-btn>
@@ -41,7 +39,7 @@
 				</b-card>
 			</b-collapse>
 		</div>
-	</div>
+  </div>
 </template>
 
 <script>
@@ -145,7 +143,6 @@ export default {
 
 	.search-select li {
 		border: 1px solid #d4d4d4;
-		;
 		border-top: none;
 		border-bottom: none;
 		background-color: #fff;
