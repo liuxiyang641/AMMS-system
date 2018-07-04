@@ -8,7 +8,7 @@
           <b-button v-bind:href="'/#/user/' + session('user_type') + '/' + username" v-if="is_login" class="mr-2"> {{username}} </b-button>
           <b-button v-else="is_login" v-b-modal.modal1 class="mr-2">登录</b-button>
           <b-button v-if="is_login" @click="logout">登出</b-button>
-          <b-button v-else="is_login">注册</b-button>
+          <b-button v-else="is_login" href="/#/register">注册</b-button>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
