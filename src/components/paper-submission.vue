@@ -28,17 +28,19 @@
                     请填写必要的摘要
                 </div>
             </div>
-            <!--<input type="file" @change="uploading($event)"/>-->
-            <span class="required ui teal button fileinput-button">
-                <span>选择文件</span>
-                <input type="file" @change="uploading($event)"/>
-            </span>
-            <div class="ui left pointing red basic label" style="display: none" ref="file">
-                请选择稿件上传
+            <div class="required field" style="display: inline">
+                <span class="required ui teal button fileinput-button">
+                    <span>选择文件</span>
+                    <input type="file" @change="uploading($event)"/>
+                </span>
+                <div class="ui left pointing red basic label" style="display:none;position: absolute" ref="file">
+                    请选择稿件上传
+                </div>
+                <div class="ui left pointing red basic label" v-if="file!=='' " style="display: inline-block;position: absolute">{{this.file.name}}</div>
             </div>
-            <div class="ui left pointing red basic label" v-if="file!=='' ">{{this.file.name}}</div>
+
             <br/>
-            <button class="ui orange button" @click="submit($event)" style="margin-top: 1rem"><i class="upload icon"></i>&nbsp;提交论文</button>
+            <button class="ui orange button" @click="submit($event)" style="margin-top: 0.5rem"><i class="upload icon"></i>&nbsp;提交论文</button>
             <div class="ui success message">
                 <div class="header">提交成功!</div>
                 <p>你的论文已提交成功，请耐心等待评审结果</p>
@@ -75,7 +77,7 @@
                 paper_name:null,
                 file_url:null,
                 conference_id:null,
-                user_ids:null,
+                user_ids:window.sessionStorage.getItem('id'),
             }
         },
         methods: {
