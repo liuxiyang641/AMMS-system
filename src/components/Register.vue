@@ -3,11 +3,11 @@
         <Navbar></Navbar>
         <div class="ui container" style="margin-top: 5rem;">
             <b-card style="width: 50%;margin-left: 25%" no-body>
-                <div class="ui attached message" style="background-color: inherit">
+                <div class="ui attached message" style="background-color: black;color: white">
                     <div class="header">欢迎来到我们的网站！ </div>
                     <p>填写下面的表单来注册新的账户</p>
                 </div>
-                <b-tabs card>
+                <b-tabs card style="color: black">
                     <b-tab title="个人用户注册" active>
                         <form class="ui form" id="inxividual-user-form">
                             <div class="required field">
@@ -32,10 +32,20 @@
                                 </div>
                             </div>
                             <br/>
-                            <button class="ui orange button" @click.prevent="individualUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
+                            <button class="ui black button" @click.prevent="individualUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
+                            <div class="ui segment" id="loader-dimmer" style="display: none">
+                                <p></p>
+                                <div class="ui dimmer active">
+                                    <div class="ui loader"></div>
+                                </div>
+                            </div>
                             <div class="ui warning message">
                                 <div class="header">注意：</div>
                                 <p>请检查你的提交，保证每一个必选项都得到了正确的填写</p>
+                            </div>
+                            <div class="ui success message">
+                                <div class="header">注册成功!</div>
+                                <p>你的账号已成功注册，现在可以登陆了！</p>
                             </div>
                         </form>
                     </b-tab>
@@ -92,7 +102,7 @@
                             </div>
 
                             <div class="required field" style="display: inline">
-                            <span class="required ui teal button fileinput-button">
+                            <span class="required ui black button fileinput-button">
                                 <span>选择相关文件</span>
                                 <input type="file" @change="uploading($event)" name="file"/>
                             </span>
@@ -104,10 +114,14 @@
 
                             <br/>
                             <br/>
-                            <button class="ui orange button" @click.prevent="companyUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
+                            <button class="ui black button" @click.prevent="companyUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
                             <div class="ui warning message">
                                 <div class="header">注意：</div>
                                 <p>请检查你的提交，保证每一个必选项都得到了正确的填写</p>
+                            </div>
+                            <div class="ui success message">
+                                <div class="header">成功提交注册申请</div>
+                                <p>您的注册申请发送成功，请耐心等待审核！</p>
                             </div>
                         </form>
                     </b-tab>
@@ -161,8 +175,7 @@
                     (res)=>{
                         console.log(res);
                         if (res.data==='注册成功'){
-                            alert('注册成功');
-                            window.location.reload();
+                            $('.ui.success.message').show();
                         }
                         else {
                             alert(res.data);
@@ -184,32 +197,53 @@
                     return;
                 }
                 let formData = new FormData();
-                formData.append('eamil',this.companyUserEmail);
-                formData.append('pwssword',this.companyUserPassword);
+                formData.append('email',this.companyUserEmail);
+                formData.append('password',this.companyUserPassword);
                 formData.append('contactername',this.companyUserName);
                 formData.append('contacterphone',this.contactPhone);
                 formData.append('companyname',this.companyName);
                 formData.append('companyid',this.companyId);
                 formData.append('communicationaddress',this.companyAddress);
                 formData.append('file',this.relatedFile);
-
                 let config = {
                     headers: {
                         'Content-Type': 'multipart/form-data',  //之前说的以表单传数据的格式来传递fromdata
                     }
-                }
-                axios.post('http://d342dc7a.ngrok.io/group/register', formData, config).then(
+                };
+                axios.post('http://192.144.153.164:9000/group/register', formData, config).then(
                     (res)=>{
-                        console.log(res);
+                        //登录成功
+                        if (res.data==='注册成功，请等待审核通过'){
+                            $('.ui.success.message').show();
+                        }
                     }
                 ).catch((error) => {
                     console.log(error);
-                })
+                });
 
             }
         },
+        mounted:function(){
+            axios.interceptors.request.use(config => {
+                $('#loader-dimmer').show();
+                return config
+            }, error => {
+                //请求错误时做些事
+                return Promise.reject(error)
+            });
+            //添加响应拦截器
+            axios.interceptors.response.use(response => {
+                $('#loader-dimmer').hide();
+                return response
+            }, error => {
+                //请求错误时做些事
+                return Promise.reject(error)
+            })
+        },
         updated:function () {
             $('.ui.warning.message').hide();
+            $('.ui.success.message').hide();
+            $('#loader-dimmer').hide();
         },
     }
 </script>
