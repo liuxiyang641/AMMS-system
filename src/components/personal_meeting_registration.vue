@@ -63,7 +63,7 @@
       		<div class="panel-body">
 			<br />
         	<!--<input type="file" @change="getFile($event)" name="file" style="width:250px; height:50px"/>-->
-			<form enctype="multipart/form-data" id="form1" method="post" action="http://d342dc7a.ngrok.io/upload/register">
+			<form enctype="multipart/form-data" id="form1" method="post" action="http://192.144.153.164:9000/registerconference">
         请选择文件
         	<input input type="file" name="file"/>
 			<!--<button class="positive ui button" @click="submitForm($event)">提交</button>-->
@@ -99,7 +99,7 @@ export default{
 			remark:'',
 
 			}}},
-	methods: {
+	methods: { 
 		  
           getFile(event) {
             this.form.file = event.target.files[0];
@@ -107,41 +107,11 @@ export default{
           },
           submitForm(url1) {
 		    this.form.url=url1;
+			this.form.userid=this.Session.get('user_id');
+			this.form.confererceid=this.$params.id;
             event.preventDefault();
-			/*let config = {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }}
-            var formData = new FormData();
-            formData.append('participatename', this.participatename);
-            formData.append('userid', this.userid);
-			formData.append('conferenceid', this.conferenceid);
-			formData.append('participatesex', this.participatesex);
-			formData.append('ifAccommodation', this.ifAccommodation);
-            formData.append('file', this.file);
-			formData.append('paperid', this.paperid);
-			formData.append('remark', this.remark);
- 			
-			
-            let config = {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            }
- 
-            this.$http.post('http://192.144.153.164：9000/rejisterconference', formData, config).then(function (res) {
-              if (res.status === 2000) {
-              }
-            })
-          
-		  axios.post('http://53df43ec.ngrok.io/registerconference?userid=1',this.form).then(function(res){
-		  	console.log(res);
-			window.location.href = 'http://www.baidu.com' ;
-			}).catch(function(err){
-				console.log(err);
-			});*/
 			console.log(this.form);
-			$.post('http://d342dc7a.ngrok.io/registerconference',this.form,function(data){console.log(data)})
+			$.post('http://192.144.153.164:9000/registerconference',this.form,function(data){console.log(data)})
 		  },
 		  getUrl(event){
 		  	$("#form1").ajaxForm((data) => {
