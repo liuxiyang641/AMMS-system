@@ -163,7 +163,7 @@
                             paper_name:this.paper_name,
                             file_url:this.file_url,
                             conference_id:this.$route.params.id,
-                            user_ids:'1'
+                            user_ids:this.session.get('id')
                         };
                         //深渊无敌巨坑，axios与jQuery的post方法实现起来不一样！！要发送application/x-www-form-urlencoded，需要querystring
                         axios.post('http://193.112.111.199:9090/contribute',querystring.stringify(data),config).then((res) => {

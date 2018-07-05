@@ -1,5 +1,5 @@
 <template>
-  <div class="ui fluid large inverted menu" style="height: 10%; margin: 0;">
+  <div class="ui fluid large inverted menu" style="height: 10%; border-radius: 0;">
     <div class="item">
       <div class="ui logo shape">
         <img src="../assets/logo.png" />
@@ -15,9 +15,11 @@
        </div>
     </div>
     <div class="right item">
-        <a class="ui inverted button mr-3" v-if="is_login">{{username}}</a>
-        <a class="ui inverted button mr-3" v-b-modal.login_modal v-else="is_login">登录</a>
-      <a class="ui inverted button" href="/#/register">注册</a>
+
+      <a class="ui inverted button mr-3" v-if="Session.login()"> {{ Session.get('username') }} </a>
+      <a class="ui inverted button mr-3" v-else v-b-modal.login_modal>登录</a>
+      <a class="ui inverted button" v-if="Session.login()" @click="logout">登出</a>
+      <a class="ui inverted button" v-else href="/#/register">注册</a>
     </div>
     <b-modal ref="login_modal" id="login_modal" centered title="登录">
       <div class="ui form">
@@ -32,8 +34,8 @@
         </div>
       </div>
       <div slot="modal-footer">
-          <div v-on:click="hideLoginModal" class="ui black button">取消</div>
-          <div v-on:click="login" class="ui positive right labeled icon button">
+          <div @click="hideLoginModal" class="ui black button">取消</div>
+          <div @click="login" class="ui positive right labeled icon button">
             登录
             <i class="checkmark icon"></i>
           </div>
@@ -45,6 +47,7 @@
 <script>
 
 import async from 'async'
+
 export default {
 	name: 'Navbar',
   components: {
@@ -53,86 +56,104 @@ export default {
     return {
       email: '',
       password: '',
-      is_login: null,
-      username: null,
-      user_type: null,
-      id:null
     }
   },
-  mounted: function() {
-    this.reset_bind();
+  created: function() {
+    this.ajaxPromise({
+      url: 'http://193.112.111.199:9090/get-session',
+      type: "GET",
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true
+    })
+    .then(res => {
+      var e = eval('(' + res + ')');
+      for(var key in e) this.Session.set(key, e[key]);
+    })
+    .catch(err => {
+      console.log(err);
+    })
   },
   methods: {
     hideLoginModal: function() {
       this.$refs.login_modal.hide();
-    },
-    reset_bind: function() {
-      this.$data.is_login = this.session('is_login');
-      this.$data.username = this.session('username');
-      this.$data.user_type = this.session('user_type');
-      this.$data.id = this.session('id');
-    },
-    session: function(key) {
-      return window.sessionStorage.getItem(key);
-    },
-    setS: function(key, val) {
-      window.sessionStorage.setItem(key, val);
-    },
-    remS: function(key) {
-      window.sessionStorage.removeItem(key);
     },
     login: function() {
       var account = {
         email: this.$data.email,
         password: this.$data.password
       };
-      var router = this.$router;
-      var refs = this.$refs;
-      var _setS = this.setS;
-      var _session = this.session;
-      let urls = [
+      var _this = this;
+      var urls = [
         'http://193.112.111.199:9090/individual-login',
         'http://193.112.111.199:9090/group-user-login',
         'http://193.112.111.199:9090/group-internal-login'
       ];
-      async.map(urls, function(url, callback) {
-        $.post(url, account, function(data) {
-          callback(null, data);
-        });
+      async.map(urls, function(_url, callback) {
+        _this.ajaxPromise({
+          url: _url,
+          type: "POST",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: true,
+          data: account
+        })
+        .then(res => {
+            var e = eval('(' + res + ')');
+            callback(null, parseInt(e.statuscode) == 1 ? true: false);
+        })
+        .catch(err => {
+          callback(err, null);
+        })
       }, function(err, res) {
-        console.log(res);
-        for(var i = 0; i < res.length; i++) {
-          var e = eval('(' + res[i] + ')');
-          if(parseInt(e.statuscode) == 2) {
-
-           _setS('is_login', true);
-          $.get({
-            url: 'http://193.112.111.199:9090/get-session',
-            crossDomain: true,
-            success: function(data) {
-                _setS('username', data.username);
-                _setS('user_type', data.type);
-                _setS('id',e.id);
-                console.log('');
-            }
-          });
+        if(err) {
+          console.log(err);
+          return;
         }
-        if(!_session('is_login')) {
+        var e = false;
+        for(var i = 0; i < res.length; i++) e |= res[i];
+        if(!e) {
           $('#login_modal .field').addClass('error');
+          return;
         }
-        else {
-          refs.login_modal.hide();
+        console.log(res);
+        _this.ajaxPromise({
+          url: 'http://193.112.111.199:9090/get-session',
+          type: "GET",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: true
+        })
+        .then(usr => {
+          var e = eval('(' + usr + ')');
+          for(var key in e) _this.Session.set(key, e[key]);
+          _this.$refs.login_modal.hide();
           window.location.reload();
-        }
-      };
-     });
+        })
+        .catch(err => {
+          console.log(err);
+        })
+      });
     },
     logout: function() {
-      this.remS('is_login');
-      this.remS('username');
-      this.remS('user_type');
-      this.remS('id');
-      window.location.href = '/';
+      this.ajaxPromise({
+        url: 'http://193.112.111.199:9090/logout',
+        type: "GET",
+        xhrFields: {
+          withCredentials: true
+        },
+        crossDomain: true
+      })
+      .then(() => {
+        this.Session.clear();
+        window.location.href = '/';
+      })
+      .catch(err => {
+        console.log(err);
+      })
     }
   }
 }
