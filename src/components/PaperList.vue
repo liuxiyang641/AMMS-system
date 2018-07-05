@@ -1,12 +1,29 @@
 <template>
-	<div>
-		<div v-for="paper in page" :key="paper.papername">
-			<h4>{{paper.papername}}</h4>
-			<p>作者：{{paper.paperauthor}}</p>
-			<p>摘要：{{paper.paperabstract}}</p>
-		</div>
-		<b-pagination class="mt-4" :total-rows="papers.length" :per-page="perPage" v-model="currentPage"></b-pagination>
-	</div>
+	<table class="ui celled table">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>论文名称</th>
+				<th>论文作者</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr v-for="paper in page" :key="paper.paperid">
+				<td>{{paper.paperid}}</td>
+				<td>{{paper.papername}}</td>
+				<td>{{paper.paperauthor}}</td>
+				<td><a :href="paper.paperurl">下载</a></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th colspan="4">
+					<b-pagination class="mt-4" :total-rows="papers.length" :per-page="perPage" v-model="currentPage"></b-pagination>
+				</th>
+			</tr>
+		</tfoot>
+	</table>
 </template>
 
 <script>

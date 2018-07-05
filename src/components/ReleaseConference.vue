@@ -1,4 +1,4 @@
-<template> 
+<template>
 	<div class="ui form">
 		<div class="required field">
 			<label>会议名称</label>
@@ -61,12 +61,9 @@
 			</div>
 			<div class="field">
 				<label>展示模板</label>
-				<select v-model="form.conferenceTemplate" class="ui dropdown">
+				<select v-model="form.template" class="ui dropdown">
 					<option :value="1">1</option>
 					<option :value="2">2</option>
-					<option :value="3">3</option>
-					<option :value="4">4</option>
-					<option :value="5">5</option>
 				</select>
 			</div>
 		</div>
@@ -106,21 +103,41 @@
 					registerFee:0,
 					contactUs:'',
 					address: '',
-					conferenceTemplate: 1
+					template: 1,
+					userid: null
 				}
 			}
 		},
 		methods: {
+			async getGroupId() {
+				if(this.session('user_type') == 'group_user')
+					this.form.userid = parseInt(this.$route.params.id);
+				else if(this.session('user_type') == 'group_internal_user') {
+					const res = await axios.post('http://193.112.111.199:9090/graphql', {
+						query: `query groupInternalUsers($id: String) {
+							groupInternalUsers(id: $id) {
+								group {
+									id
+								}
+							}
+						}`,
+						variables: {
+							id:this.$route.params.id
+						}
+					});
+					this.form.userid = parseInt(res.data.data.groupInternalUsers[0].group.id);
+				}
+			},
 			onSubmit (evt) {
 				evt.preventDefault();
 				for(var key in this.form) {
-					if(this.form[key] != '' && (key.slice(-8) == 'Deadline' || key.slice(-4) == 'Time')) {
-						this.form[key] += ' 00:00:00';
-					}
+					//console.log(key + "=" + this.form[key]);
+					if(this.form[key] != '' && (key.slice(-8) == 'Deadline' || key.slice(-4) == 'Time'))
+						this.form[key] += 'T00:00:00';
 					if(key == 'registerFee') this.form[key] = parseInt(this.form[key]);
 				}
+				console.log(this.form);
 				axios.post('http://192.144.153.164:9000/conference', this.form).then(function(res) {
-					console.log(res);
 					window.location.href = '/#/conference/' + res.data.conferenceId;
 				}).catch(function(err) {
 					console.log(err);
@@ -134,7 +151,13 @@
 			},
 			uploadTemplate() {
 				//console.log(this.files);
-			}
+			},
+			session: function(key) {
+				return window.sessionStorage.getItem(key);
+			},
+		},
+		created: function() {
+			this.getGroupId();
 		}
 	}
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="$route.params.type == 'individual_user'">
+	<div v-if="$route.params.type == 'individual_user'">
 		<h3>{{userInfo.name}}</h3>
 		<p>邮箱：{{userInfo.email}}</p>
     </div>
@@ -23,6 +23,11 @@
 
     export default {
         name: "ConferenceInfo",
+		data: function () {
+			return {
+				userInfo: {},
+			}
+		},
         methods: {
 			async groupInternalUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
@@ -39,7 +44,7 @@
 						id:this.$route.params.id
 					}
 				});
-				return res.data.data.groupInternalUsers[0];
+				this.userInfo = res.data.data.groupInternalUsers[0];
 			},
 			async groupUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
@@ -57,7 +62,7 @@
 						id:this.$route.params.id
 					}
 				});
-				return res.data.data.groupUsers[0];
+				this.userInfo = res.data.data.groupUsers[0];
 			},
 			async individualUsers() {
 				const res = await axios.post('http://193.112.111.199:9090/graphql', {
@@ -71,7 +76,7 @@
 						id:this.$route.params.id
 					}
 				});
-				return res.data.data.individualUsers[0];
+				this.userInfo = res.data.data.individualUsers[0];
 			},
 			getUserInfo: function () {
 				this.type = this.$route.params.type;

@@ -3,7 +3,7 @@
     <SearchPanel></SearchPanel>
     <b-card no-body>
       <b-tabs pills card vertical>
-        <b-tab title="会议信息" active>
+        <b-tab title="会议信息">
           <ConferenceInfo></ConferenceInfo>
         </b-tab>
         <b-tab v-if="session('user_type') == 'individual_user'" title="注册会议">
