@@ -41,6 +41,12 @@
 
             <br/>
             <button class="ui orange button" @click="submit($event)" style="margin-top: 0.5rem"><i class="upload icon"></i>&nbsp;提交论文</button>
+            <div class="ui segment" style="display: none">
+                <p></p>
+                <div class="ui dimmer active">
+                    <div class="ui loader"></div>
+                </div>
+            </div>
             <div class="ui success message">
                 <div class="header">提交成功!</div>
                 <p>你的论文已提交成功，请耐心等待评审结果</p>
@@ -163,7 +169,7 @@
                             paper_name:this.paper_name,
                             file_url:this.file_url,
                             conference_id:this.$route.params.id,
-                            user_ids:this.session.get('id')
+                            user_ids:this.Session.get('user_id')
                         };
                         //深渊无敌巨坑，axios与jQuery的post方法实现起来不一样！！要发送application/x-www-form-urlencoded，需要querystring
                         axios.post('http://193.112.111.199:9090/contribute',querystring.stringify(data),config).then((res) => {
@@ -184,8 +190,24 @@
                         });
                     });
             },
-
-        }
+        },
+        mounted:function(){
+            axios.interceptors.request.use(config => {
+                $('.ui.segment').show();
+                return config
+            }, error => {
+                //请求错误时做些事
+                return Promise.reject(error)
+            });
+            //添加响应拦截器
+            axios.interceptors.response.use(response => {
+                $('.ui.segment').hide();
+                return response
+            }, error => {
+                //请求错误时做些事
+                return Promise.reject(error)
+            })
+        },
     }
 </script>
 

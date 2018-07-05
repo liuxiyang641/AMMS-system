@@ -33,7 +33,6 @@
 						id:this.$route.params.id
 					}
 				});
-				console.log(res);
 				this.template = res.data.data.GetConferences[0].template;
 			},
 			session: function(key) {

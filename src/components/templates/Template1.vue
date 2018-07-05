@@ -4,7 +4,7 @@
             <h2 class="modal-title">{{title}}&nbsp;&nbsp;&nbsp;&nbsp;
                 <b-badge ref="mbadge" :variant=variant_class>{{status}}</b-badge>
             </h2>
-			<span v-if="session('id') && session('user_type') == 'individual_user'">
+			<span v-if="Session.login() && Session.individualUser()">
 				<button v-if="!favorite" class="ui labeled basic button" @click="ChangeUserFavorite"><i class="empty star icon"></i>收藏</button>
 				<button v-else class="ui labeled basic button" @click="ChangeUserFavorite"><i class="star icon"></i>取消收藏</button>
 			</span>
@@ -94,9 +94,8 @@
 			ChangeUserFavorite: function() {
 				$.post('http://192.144.153.164:9000/collection', {
 					conferenceid: this.$route.params.id,
-					userid: this.session('id')
+					userid: this.Session.get('user_id')
 				}, (data) => {
-					console.log(data);
 					if(data == '取消收藏' || data == '收藏成功')
 						this.IsUserFavorite();
 					else
@@ -200,9 +199,6 @@
              this.contact_us = conferenceInfo.contact_us;
              this.address = conferenceInfo.address;
           },
-		  session: function(key) {
-			  return window.sessionStorage.getItem(key);
-			},
         },
         created: function () {
             this.GetConferenceInfo();

@@ -12,7 +12,7 @@
                 </b-tab>
                 <b-tab v-if="Session.individualUser()" title="我的投稿">
                 </b-tab>
-                <b-tab title="会议投稿">
+                <b-tab v-if="isOwner" title="会议投稿">
                     <PaperList :papers="papers"></PaperList>
                 </b-tab>
             </b-tabs>
@@ -26,6 +26,8 @@
   import SearchPanel from '@/components/SearchPanel'
   import PaperSubmission from '@/components/paper-submission'
   import PaperList from '@/components/PaperList'
+  import axios from 'axios'
+
 
   export default {
     name: "ConferenceIndex",
@@ -37,11 +39,33 @@
     },
 	data: function () {
 		return {
-			papers: []
+			papers: [],
+            isOwner:null
 		}
 	},
 	methods: {
-	}
+	},
+      mounted:function () {
+          let typecode;
+          switch (this.Session.get('type')){
+              case 'individual_user':
+                  typecode=1;
+                  break;
+              case 'group_user':
+                  typecode=2;
+                  break;
+              case 'group_internal_user':
+                  typecode=3;
+                  break;
+          }
+          let url='http://192.144.153.164:9000/conference/permission?conferenceid='+this.$route.params.id+'&userid='+this.Session.get('user_id')+'&type='+typecode;
+          axios.get(url).then(
+              (res)=> {
+             this.isOwner=res.data;
+          }).catch((error) => {
+              console.log(error);
+          });
+    }
 }
 </script>
 
