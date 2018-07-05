@@ -30,6 +30,10 @@ export default new Router({
     {
       path:'/register',
       component:Register
-    }
+    },
+      {
+          path: '/user/:type/:id',
+          component: UserIndex
+      }
   ]
 })

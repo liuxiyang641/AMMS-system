@@ -15,7 +15,8 @@
        </div>
     </div>
     <div class="right item">
-      <a class="ui inverted button mr-3" v-b-modal.login_modal>登录</a>
+        <a class="ui inverted button mr-3" v-if="is_login">{{username}}</a>
+        <a class="ui inverted button mr-3" v-b-modal.login_modal v-else="is_login">登录</a>
       <a class="ui inverted button" href="/#/register">注册</a>
     </div>
     <b-modal ref="login_modal" id="login_modal" centered title="登录">
@@ -69,7 +70,7 @@ export default {
       this.$data.is_login = this.session('is_login');
       this.$data.username = this.session('username');
       this.$data.user_type = this.session('user_type');
-      this.$data.user_type = this.session('id');
+      this.$data.id = this.session('id');
     },
     session: function(key) {
       return window.sessionStorage.getItem(key);
@@ -102,19 +103,17 @@ export default {
         console.log(res);
         for(var i = 0; i < res.length; i++) {
           var e = eval('(' + res[i] + ')');
-          if(parseInt(e.statuscode) == 1) {
-           _setS('username', e.username);
-           _setS('user_type', e.type);
+          if(parseInt(e.statuscode) == 2) {
+
            _setS('is_login', true);
-           _setS('id',e.id);
-          $.ajax({
+          $.get({
             url: 'http://193.112.111.199:9090/get-session',
-            xhrFields: {
-              withCredentials: true
-            },
             crossDomain: true,
             success: function(data) {
-              console.log(data);
+                _setS('username', data.username);
+                _setS('user_type', data.type);
+                _setS('id',e.id);
+                console.log('');
             }
           });
         }
