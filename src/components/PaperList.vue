@@ -22,7 +22,9 @@
                 </td>
                 <td>
                     <button class="ui black basic button" v-if="paper.status===1||paper.status===3" @click="showModal(paper.paperid,paper.status)">评审</button>
-                    <i class="checkmark icon" v-else></i>
+                    <!--通过显示✅-->
+                    <i class="checkmark icon" v-if="paper.status===2"></i>
+                    <i class="times icon" v-if="paper.status===4"></i>
                 </td>
             </tr>
             </tbody>
@@ -102,11 +104,14 @@ export default {
 		}
 	},
 	methods: {
-	    hideModal:function(){
+	    resetData:function(){
             this.reviewResult.resultStatus=null;
             this.reviewResult.reviewPaperId=null;
             this.reviewResult.reviewPaperStatus=null;
             this.reviewResult.reviewDescription=null;
+        },
+	    hideModal:function(){
+            this.resetData();
             $('.ui.warning.message').hide();
             $('.ui.success.message').hide();
             $('.ui.segment').hide();
@@ -114,6 +119,8 @@ export default {
         },
         showModal:function(paperid,paperstatus){
             this.$refs.review_modal.show();
+            $('.ui.warning.message').hide();
+            $('.ui.success.message').hide();
             this.reviewResult.reviewPaperId=paperid;
             this.reviewResult.reviewPaperStatus=paperstatus;
         },
@@ -147,8 +154,15 @@ export default {
                 }
                 axios.put('http://192.144.153.164:9000/paper/review', postData).then(
                     (res)=>{
-                        //评审结果发生
-                        console.log(res.data);
+                        //评审结果发送
+                        //修改相应的paper状态
+                        this.page.find(function(paper) {
+                            if (paper.paperid===postData.paperid){
+                                paper.status=postData.status;
+                                return true;
+                            }
+                            return false;
+                        });
                         $('.ui.success.message').show();
                     }
                 ).catch((error) => {
@@ -204,9 +218,6 @@ export default {
         })
     },
     updated:function () {
-        $('.ui.warning.message').hide();
-        $('.ui.success.message').hide();
-        $('.ui.segment').hide();
     },
 }
 </script>
