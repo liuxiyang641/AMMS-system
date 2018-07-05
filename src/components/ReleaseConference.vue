@@ -147,13 +147,13 @@
 				evt.preventDefault();
 				for(var key in this.form) {
 					this.form[key] = '';
-				}				
+				}
 			},
 			uploadTemplate() {
 				//console.log(this.files);
 			},
 			session: function(key) {
-				return window.sessionStorage.getItem(key);
+				return window.localStorage.getItem(key);
 			},
 		},
 		created: function() {

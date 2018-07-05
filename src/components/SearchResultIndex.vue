@@ -1,6 +1,4 @@
 <template>
-  <div style="height: 100%;">
-    <Navbar></Navbar>
     <div class="ui grid" style="height: 90%;">
       <div class="three wide column">
         <Sidebar></Sidebar>
@@ -13,13 +11,11 @@
         <b-pagination class="mt-4" :total-rows="conferences.length" :per-page="perPage" v-model="currentPage"></b-pagination>-->
       </div>
     </div>
-  </div>
 </template>
 
 <script>
   import ConferenceItem from '@/components/ConferenceItem'
   import SearchPanel from '@/components/SearchPanel'
-  import Navbar from '@/components/Navbar'
   import Sidebar from '@/components/Sidebar'
   import util from 'util'
 
@@ -28,7 +24,6 @@
   	components: {
   		ConferenceItem,
       SearchPanel,
-      Navbar,
       Sidebar
   	},
   	data: function () {

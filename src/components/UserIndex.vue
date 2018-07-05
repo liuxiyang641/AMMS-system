@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Navbar></Navbar>
         <div class="ui container">
             <b-card no-body>
                 <b-tabs pills card vertical>
@@ -30,12 +29,11 @@
 	import ReleaseConference from '@/components/ReleaseConference'
 	import UserInfo from '@/components/UserInfo'
 	import InternalUsers from '@/components/InternalUsers'
-    import Navbar from '@/components/Navbar'
 
 	export default {
 		name: "UserIndex",
 		components: {
-			ReleaseConference, UserInfo, InternalUsers,Navbar
+			ReleaseConference, UserInfo, InternalUsers
 		}
 	}
 </script>

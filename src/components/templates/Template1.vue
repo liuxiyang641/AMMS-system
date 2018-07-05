@@ -108,7 +108,7 @@
 				{
 					params: {
 						conferenceid: this.$route.params.id,
-						userid: this.session('id')
+						userid: this.Session.get('user_id')
 					}
 				}).then((response) => {
 					this.favorite = response.data;
@@ -198,7 +198,7 @@
              this.institution = conferenceInfo.institution;
              this.accommodation_transportation = conferenceInfo.accommodation_transportation;
              this.contact_us = conferenceInfo.contact_us;
-             this.address = conferenceInfo.address;     
+             this.address = conferenceInfo.address;
           },
 		  session: function(key) {
 			  return window.sessionStorage.getItem(key);

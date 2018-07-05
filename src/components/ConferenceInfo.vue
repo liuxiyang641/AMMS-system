@@ -16,6 +16,7 @@
         data () {
             return {
                 fields: [ '相关日期', '具体时间' ],
+                template:null
             }
         },
         methods: {
