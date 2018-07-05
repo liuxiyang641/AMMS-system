@@ -33,7 +33,7 @@
                             </div>
                             <br/>
                             <button class="ui black button" @click.prevent="individualUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
-                            <div class="ui segment" id="loader-dimmer" style="display: none">
+                            <div class="ui segment" style="display: none">
                                 <p></p>
                                 <div class="ui dimmer active">
                                     <div class="ui loader"></div>
@@ -115,6 +115,12 @@
                             <br/>
                             <br/>
                             <button class="ui black button" @click.prevent="companyUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
+                            <div class="ui segment" style="display: none">
+                                <p></p>
+                                <div class="ui dimmer active">
+                                    <div class="ui loader"></div>
+                                </div>
+                            </div>
                             <div class="ui warning message">
                                 <div class="header">注意：</div>
                                 <p>请检查你的提交，保证每一个必选项都得到了正确的填写</p>
@@ -213,7 +219,8 @@
                 axios.post('http://192.144.153.164:9000/group/register', formData, config).then(
                     (res)=>{
                         //登录成功
-                        if (res.data==='注册成功，请等待审核通过'){
+                        console.log(res.data);
+                        if (res.data==='注册成功，请等待审核结果'){
                             $('.ui.success.message').show();
                         }
                     }
@@ -225,7 +232,7 @@
         },
         mounted:function(){
             axios.interceptors.request.use(config => {
-                $('#loader-dimmer').show();
+                $('.ui.segment').show();
                 return config
             }, error => {
                 //请求错误时做些事
@@ -233,7 +240,7 @@
             });
             //添加响应拦截器
             axios.interceptors.response.use(response => {
-                $('#loader-dimmer').hide();
+                $('.ui.segment').hide();
                 return response
             }, error => {
                 //请求错误时做些事
@@ -243,7 +250,7 @@
         updated:function () {
             $('.ui.warning.message').hide();
             $('.ui.success.message').hide();
-            $('#loader-dimmer').hide();
+            $('.ui.segment').hide();
         },
     }
 </script>
