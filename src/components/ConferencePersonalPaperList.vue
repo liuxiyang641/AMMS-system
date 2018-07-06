@@ -39,7 +39,7 @@
 <script>
   import axios from 'axios'
   export default {
-    name: "Paperlist",
+    name: "ConferencePersonalPaperList",
     data () {
       return {
         paperInfo: []

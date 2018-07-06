@@ -6,7 +6,7 @@ import ConferenceInfo from '@/components/ConferenceInfo'
 import UserIndex from '@/components/UserIndex'
 import Register from '@/components/Register'
 import PaperSubmission from '@/components/PaperSubmission' 
-import PaperList from '@/components/PaperList'
+import ConferencePersonalPaperList from '@/components/ConferencePersonalPaperList'
 import InternalUsers from '@/components/InternalUsers'
 
 Vue.use(Router)
@@ -32,7 +32,7 @@ export default new Router({
     },
     {
       path: '/conference/:id/paper-list',
-      component: PaperList
+      component: ConferencePersonalPaperList
     },
     {
       path: '/user/:id/internal-user-manage',
