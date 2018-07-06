@@ -4,7 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from "axios";
+import bModal from 'bootstrap-vue/es/components/modal/modal'
+import bModalDirective from 'bootstrap-vue/es/directives/modal/modal'
+import BootstrapVue from 'bootstrap-vue'
 
+Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 Vue.prototype.$axios=axios;
 Vue.prototype.$http=axios;
