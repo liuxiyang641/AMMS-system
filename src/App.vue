@@ -4,8 +4,9 @@
     <Sidebar v-if="!inIndex()" 
          :services="getService()">
     </Sidebar>
-    <div class="ui fluid container fulled" 
-      :style="'position:absolute;'+(inIndex()?'padding:0;top:6rem;left:0;':'top:8rem;left:14rem;')">
+    <div
+      :style="inIndex() ? 'margin-top:5%;height:100%;width:100%;'
+          : 'margin-left:15%;margin-top:8%;'">
       <router-view />
     </div>
   </div>
@@ -28,7 +29,7 @@ export default {
       return this.$route.path == '/';
     },
     inConferenceIndex: function() {
-      return /^\/conference\/\d+$/.test(this.$route.path);
+      return /^\/conference\//.test(this.$route.path);
     },
     getService: function() {
       var ret = this.inConferenceIndex() ? this.Session.conference() : this.Session.personal();

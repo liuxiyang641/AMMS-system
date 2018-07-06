@@ -5,6 +5,9 @@ import Index from '@/components/Index'
 import ConferenceInfo from '@/components/ConferenceInfo'
 import UserIndex from '@/components/UserIndex'
 import Register from '@/components/Register'
+import PaperSubmission from '@/components/PaperSubmission' 
+import PaperList from '@/components/PaperList'
+import InternalUsers from '@/components/InternalUsers'
 
 Vue.use(Router)
 
@@ -20,16 +23,24 @@ export default new Router({
       component: SearchResultIndex
     },
     {
-      path: '/conference/:id',
-      component: ConferenceInfo
+      path: '/conference/:id/info',
+      component: ConferenceInfo,
     },
     {
-      path: '/user/:id',
-      component: UserIndex
+      path: '/conference/:id/paper-submission',
+      component: PaperSubmission
     },
     {
-      path:'/register',
+      path: '/conference/:id/paper-list',
+      component: PaperList
+    },
+    {
+      path: '/user/:id/internal-user-manage',
+      component: InternalUsers
+    },
+    {
+      path: '/register',
       component: Register
-    } 
+    }
   ]
 })

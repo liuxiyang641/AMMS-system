@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ui container">
         <form class="ui form" id="submission-form" ref="submissionref">
             <div class="required field">
                 <label>投稿名称</label>
@@ -40,13 +40,11 @@
             </div>
 
             <br/>
-            <button class="ui orange button" @click="submit($event)" style="margin-top: 0.5rem"><i class="upload icon"></i>&nbsp;提交论文</button>
-            <div class="ui segment" style="display: none">
-                <p></p>
-                <div class="ui dimmer active">
-                    <div class="ui loader"></div>
-                </div>
-            </div>
+            <button id="paper-submit" class="ui orange button" @click="submit($event)" style="margin-top: 0.5rem">
+              <i class="upload icon"></i>
+              &nbsp;提交论文&nbsp;&nbsp;
+              <i class="spinner loading icon" style="display:none"></i>
+            </button>
             <div class="ui success message">
                 <div class="header">提交成功!</div>
                 <p>你的论文已提交成功，请耐心等待评审结果</p>
@@ -91,19 +89,17 @@
                 this.file = event.target.files[0];//获取文件
             },
             checkSubmission:function () {
-                if (this.paper_name===''){
+                var valid = (this.paper_name && this.paper_abstract && this.paper_author);
+                if (!this.paper_name){
                     this.$refs.paper_name.style.display="";
-                    return false;
                 }
-                if (this.paper_abstract===''){
+                if (!this.paper_abstract){
                     this.$refs.paper_abstract.style.display="";
-                    return false;
                 }
-                if (this.paper_author===''){
+                if (!this.paper_author){
                     this.$refs.paper_author.style.display="";
-                    return false;
                 }
-                return true;
+                return valid;
             },
             hideAllMessage:function () {
                 this.$refs.paper_name.style.display="none";
@@ -193,7 +189,7 @@
         },
         mounted:function(){
             axios.interceptors.request.use(config => {
-                $('.ui.segment').show();
+                $('.spinner.loading.icon').show();
                 return config
             }, error => {
                 //请求错误时做些事
@@ -201,7 +197,7 @@
             });
             //添加响应拦截器
             axios.interceptors.response.use(response => {
-                $('.ui.segment').hide();
+                $('.spinner.loading.icon').hide();
                 return response
             }, error => {
                 //请求错误时做些事
@@ -212,17 +208,5 @@
 </script>
 
 <style scoped>
-    .fileinput-button {
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-    }
-
-    .fileinput-button input{
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        opacity: 0;
-        -ms-filter: 'alpha(opacity=0)';
-    }
+    
 </style>
