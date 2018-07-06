@@ -1,16 +1,11 @@
 <template>
-    <div class="ui grid" style="height: 90%;">
-      <div class="three wide column">
-        <Sidebar></Sidebar>
-      </div>
-      <div class="thirteen wide column">
-       <!-- <SearchPanel></SearchPanel>
-        <div class="ui three cards">
-          <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
-        </div>
-        <b-pagination class="mt-4" :total-rows="conferences.length" :per-page="perPage" v-model="currentPage"></b-pagination>-->
-      </div>
-    </div>
+  <div class="ui container">
+   <!--<SearchPanel></SearchPanel>-->
+   <div class="ui three cards">
+    <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
+   </div>
+   <b-pagination class="mt-4" :total-rows="conferences.length" :per-page="perPage" v-model="currentPage"></b-pagination>
+  </div>
 </template>
 
 <script>

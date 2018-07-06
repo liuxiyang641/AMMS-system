@@ -1,13 +1,25 @@
 var personalService = {
   individual_user: ['个人信息', '我的收藏', '我的投稿', '我的注册'],
   group_user: ['单位信息', '内部用户管理', '发布会议', '我的会议'],
-  internal_user: ['个人信息', '发布会议', '我的会议']
+  group_internal_user: ['个人信息', '发布会议', '我的会议'],
+  null: []
 }
 
 var conferenceService = {
   individual_user: ['会议信息', '在线投稿', '我的投稿', '注册会议'],
   group_user: ['会议信息', '投稿列表', '注册列表'],
-  internal_user: ['会议信息', '投稿列表', '注册列表']
+  group_internal_user: ['会议信息', '投稿列表', '注册列表'],
+  null: ['会议信息']
+}
+
+var type2Text = {
+  individual_user: '个人用户',
+  group_user: '单位用户',
+  group_internal_user: '单位内部用户'
+}
+
+function type() {
+  return type2Text[get('type')];
 }
 
 function personal() {
@@ -56,7 +68,7 @@ function clear() {
 
 export default {
   get, set, remove, clear,
-  login,
+  login, type,
   individualUser, groupUser, internalUser, instituteUser,
   personal, conference
 }

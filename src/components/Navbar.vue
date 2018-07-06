@@ -1,15 +1,15 @@
 <template>
-  <div class="ui fluid large inverted menu" style="height: 10%; border-radius: 0;">
+  <div class="ui top fixed large inverted menu" style="border-radius: 0; margin: 0;">
     <div class="item">
       <div class="ui logo shape">
         <img src="../assets/logo.png" />
       </div>
     </div>
-    <a class="item"><strong>AMMS会议管理系统</strong></a>
+    <a class="item" href="/"><strong>AMMS会议管理系统</strong></a>
     <div class="item">
        <div class="ui fluid search">
          <div class="ui icon input">
-           <input class="prompt" type="text" placeholder="搜索会议" />
+           <input v-model="keyword" @keydown.enter="navSearch" class="prompt" type="text" placeholder="搜索会议" />
            <i class="search icon"></i>
          </div>
        </div>
@@ -21,7 +21,7 @@
       <a class="ui inverted button" v-else>注册</a>
     </div>
     <b-modal ref="login_modal" id="login_modal" centered title="登录">
-      <div class="ui form">
+      <div class="ui error form">
         <div class="inline required field">
           <label>邮箱</label>
           <input type="email" v-model="email" placeholder="Email Address"/>
@@ -55,6 +55,7 @@ export default {
     return {
       email: '',
       password: '',
+      keyword: ''
     }
   },
   created: function() {
@@ -78,6 +79,15 @@ export default {
     hideLoginModal: function() {
       this.$refs.login_modal.hide();
     }, 
+    navSearch: function() {
+      var _this = this;
+      this.$router.push({
+        path: '/search',
+        query: {
+          keyword: _this.keyword
+        } 
+      })
+    },
     login: function() {
       var account = {
         email: this.$data.email,
@@ -148,7 +158,7 @@ export default {
       })
       .then(() => {
         this.Session.clear();
-        window.location.href = '/';
+        window.location.reload();
       })
       .catch(err => {
         console.log(err);

@@ -1,0 +1,8 @@
+.fulled {
+  height: 100% !important;
+}
+
+.v-centered {
+  display: flex !important;
+  align-items: center !important;
+}
