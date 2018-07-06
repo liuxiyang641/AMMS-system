@@ -5,23 +5,27 @@
 
       <b-collapse is-nav id="nav_collapse">
         <b-navbar-nav class="ml-auto">
-            <b-button  v-b-modal.modal1 id="log">登录/ID</b-button>
+            <b-button>登录/ID</b-button>
             <b-button>注册/登出</b-button>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
 
-    <status></status>
+   <UserInfo></UserInfo>
   </div>
 </template>
 
 <script>
   //import manege from '@/components/manege'
-  import status from '@/components/status'
+  //import status from '@/components/status'
+  //import regconf from '@/components/regconf'
+  import UserInfo from '@/components/UserInfo'
   export default {
     name: 'App',
     //components:{manege},
-    components:{status}
+    //components:{status},
+    //components:{regconf}
+    components:{UserInfo}
   }
 </script>
 
