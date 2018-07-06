@@ -83,7 +83,7 @@
                 paper_name:null,
                 file_url:null,
                 conference_id:null,
-                user_ids:window.sessionStorage.getItem('id'),
+                user_ids:this.Session.get('user_id'),
             }
         },
         methods: {
@@ -117,7 +117,6 @@
             },
             async submit (event) {
                 event.preventDefault();//取消默认行为
-                console.log()
                 this.hideAllMessage();
                 //检查必填项
                 if (!this.checkSubmission()) {
