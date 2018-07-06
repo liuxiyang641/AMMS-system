@@ -45,9 +45,9 @@
         paperInfo: []
       }
     },
-
     methods: {
       GetPaper: function() {
+        console.log(1);
         axios.post('http://192.144.136.166:4040/graphql', {
           query: `
                   query GetPaper($userid:Int,$confid:Int) {
@@ -78,7 +78,7 @@
           })
        },
        download: function(paper_id) {
-         /*this.ajaxPromise({
+         this.ajaxPromise({
             url: 'http://193.112.111.199:9090/download', 
             type: "POST",
             data: {
@@ -90,20 +90,16 @@
             crossDomain: true
           })
          .then(res => {
-           var blob = new Blob([res], {
-             type: "application/pdf"
-           });
-           var objectUrl = URL.createObjectURL(blob);
-           window.location.href = objectUrl;
+            window.location.href = res;
          })
          .catch(err => {
            console.log(err);
-         })*/
-       }
-      },
-      created: function () {
-         this.GetPaper();
+         })
       }
+    },
+    created: function () {
+      this.GetPaper();
+    }
   }
 </script>
 

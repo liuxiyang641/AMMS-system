@@ -8,7 +8,7 @@
         </h1>
         <h2>All in here</h2>
         <div class="ui hidden divider"></div>
-        <div class="ui huge primary button">
+        <div @click="search" class="ui huge primary button">
           最新会议
           <i class="right arrow icon"></i>
         </div>
@@ -28,12 +28,16 @@
 
   export default {
   	name: 'Index',
-    data: function() {
-      return {
+    methods: {
+      search: function() {
+        this.$router.push({
+          path: '/search',
+          query: {
+            keyword: ''
+          }
+        })
       }
-    },
-  	components: {
-  	}
+    } 
   }
 </script>
 

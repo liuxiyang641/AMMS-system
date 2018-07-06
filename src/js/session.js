@@ -1,15 +1,90 @@
+import util from 'util'
+
+function iinfo() {
+  return {
+    service: '个人信息',
+    route: util.format('/user/%s/info', get('user_id'))
+  }
+}
+function icol() {
+  return {
+    service: '我的收藏',
+    route: util.format('/user/%s/collection', get('user_id'))
+  }
+}
+function ipaper() {
+  return {
+    service: '我的投稿',
+    route: util.format('/user/%s/paper', get('user_id'))
+  }
+}
+function iattend() {
+  return {
+    service: '我的注册',
+    route: util.format('/user/%s/attendance', get('user_id'))
+  }
+}
+function ginfo() {
+  return {
+    service: '单位信息',
+    route: util.format('/user/%s/info', get('user_id'))
+  }
+}
+function grelease() {
+  return {
+    service: '发布会议',
+    route: util.format('/user/%s/release', get('user_id'))
+  }
+}
+function ginternal() {
+  return {
+    service: '内部用户管理',
+    route: util.format('/user/%s/internal', get('user_id'))
+  }
+}
+function gconfs() {
+  return {
+    service: '我的会议',
+    route: util.format('/user/%s/conference', get('user_id'))
+  }
+}
+function cinfo() {
+  return {
+    service: '会议信息',
+    route: '/conference/_filler_/info'
+  }
+}
+function csubmit() {
+  return {
+    service: '在线投稿',
+    route: '/conference/_filler_/submit'
+  }
+}
+function cpaper() {
+  return {
+    service: '我的投稿',
+    route: '/conference/_filler_/papers'
+  }
+}
+function cattend() {
+  return {
+    service: '注册会议',
+    route: '/conference/_filler_/attend'
+  }
+}
+
 var personalService = {
-  individual_user: ['个人信息', '我的收藏', '我的投稿', '我的注册'],
-  group_user: ['单位信息', '内部用户管理', '发布会议', '我的会议'],
-  group_internal_user: ['个人信息', '发布会议', '我的会议'],
+  individual_user: [iinfo(), icol(), ipaper(), iattend()],
+  group_user: [ginfo(), ginternal(), grelease(), gconfs()],
+  group_internal_user: [ginfo(), grelease(), gconfs()],
   null: []
 }
 
 var conferenceService = {
-  individual_user: ['会议信息', '在线投稿', '我的投稿', '注册会议'],
-  group_user: ['会议信息'],
-  group_internal_user: ['会议信息'],
-  null: ['会议信息']
+  individual_user: [cinfo(), csubmit(), cpaper(), cattend()],
+  group_user: [cinfo()],
+  group_internal_user: [cinfo()],
+  null: [cinfo()]
 }
 
 var type2Text = {

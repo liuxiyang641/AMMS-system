@@ -17,10 +17,13 @@
     </div>
     
     <div class="ui hidden divider"></div>
-    <div v-for="service in services" class="ui dropdown item" style="text-align: center; font-size: 1.2rem;">
+    <a v-for="entry in services" 
+        :href="entry.route" 
+        class="ui dropdown item" 
+        style="text-align: center; font-size: 1.2rem;">
       <i class="angle right icon"></i>
-      {{ service }}
-    </div>
+      {{ entry.service }}
+    </a>
     
   </div> 
 </template>
