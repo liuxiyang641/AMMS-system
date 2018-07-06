@@ -68,11 +68,6 @@ export default {
 	},
 	created: function () {
 		this.getPapers();
-	},
-	watch: {
-		'$route.params': function() {
-			this.getPapers();
-		}
 	}
 }
 </script>
