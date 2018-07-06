@@ -13,7 +13,7 @@
   import SearchPanel from '@/components/SearchPanel'
   import Sidebar from '@/components/Sidebar'
   import util from 'util'
-  
+
   export default {
   	name: 'ConferenceList',
   	components: {
@@ -41,9 +41,9 @@
       }
   	},
   	methods: {
-  
+
       search: function() {
-  		   $.get('http://192.144.136.166:4040/graphql', 
+  		   $.get('http://192.144.136.166:4040/graphql',
   			 {
   				query: util.format(`
   					{
@@ -53,18 +53,18 @@
   							status
   							start_time
   							institution
-                conference_id
+                            conference_id
   						}
-  					}`, this.$route.query.keyword, this.$route.query.paper_ddl_begin ,this.$route.query.paper_ddl_end, this.$route.query.start_time_begin, this.$route.query.start_time_end)				
+  					}`, this.$route.query.keyword, this.$route.query.paper_ddl_begin ,this.$route.query.paper_ddl_end, this.$route.query.start_time_begin, this.$route.query.start_time_end)
   			},
   			  (response) => {
   				  this.conferences = response.data.GetConferences;
   				  this.getPage(this.currentPage);
   			  }
   		  );
-  
+
       },
-  
+
   		getPage: function (currentPage) {
   			this.page = [];
   			for(var i = (currentPage - 1) * this.perPage; i < Math.min(currentPage * this.perPage, this.conferences.length); i++)

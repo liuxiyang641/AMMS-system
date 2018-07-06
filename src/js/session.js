@@ -7,8 +7,8 @@ var personalService = {
 
 var conferenceService = {
   individual_user: ['会议信息', '在线投稿', '我的投稿', '注册会议'],
-  group_user: ['会议信息', '投稿列表', '注册列表'],
-  group_internal_user: ['会议信息', '投稿列表', '注册列表'],
+  group_user: ['会议信息'],
+  group_internal_user: ['会议信息'],
   null: ['会议信息']
 }
 

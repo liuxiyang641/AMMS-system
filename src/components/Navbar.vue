@@ -15,28 +15,37 @@
        </div>
     </div>
     <div class="right item">
-      <a class="ui inverted button mr-3" v-if="Session.login()"> {{ Session.get('username') }} </a>
+       <a class="ui inverted button mr-3" v-if="Session.login()"> {{ Session.get('username') }} </a>
       <a class="ui inverted button mr-3" v-else v-b-modal.login_modal>登录</a>
       <a class="ui inverted button" v-if="Session.login()" @click="logout">登出</a>
-      <a class="ui inverted button" v-else>注册</a>
+      <a class="ui inverted button" v-else href="/register">注册</a>
     </div>
     <b-modal ref="login_modal" id="login_modal" centered title="登录">
-      <div class="ui error form">
-        <div class="inline required field">
+      <div class="ui form">
+        <div id="login-email" class="inline required field">
           <label>邮箱</label>
           <input type="email" v-model="email" placeholder="Email Address"/>
+          <div class="ui left pointing red basic label" ref="paper_abstract" style="display: none;">
+              请填写邮箱
+          </div>
         </div>
-        
-        <div class="inline required field">
+
+        <div id="login-password" class="inline required field">
           <label>密码</label>
           <input type="password" v-model="password" placeholder="Password"/>
+           <div class="ui left pointing red basic label" ref="paper_abstract" style="display: none;">
+              请填写密码
+          </div>
         </div>
       </div>
       <div slot="modal-footer">
-          <div @click="hideLoginModal" class="ui black button">取消</div>
-          <div @click="login" class="ui positive right labeled icon button">
+          <div @click="hideLoginModal" class="ui black right labeled icon button">
+            取消
+            <i style="background:transparent;" class="times icon"></i>
+          </div>
+          <div id="login-footer" @click="login" class="ui positive right labeled icon button">
             登录
-            <i class="checkmark icon"></i>
+            <i style="background:transparent;" class="checkmark icon"></i>
           </div>
       </div>
     </b-modal>
@@ -53,8 +62,8 @@ export default {
   },
   data: function() {
     return {
-      email: '',
-      password: '',
+      email: null,
+      password: null,
       keyword: ''
     }
   },
@@ -75,6 +84,9 @@ export default {
       console.log(err);
     })
   },
+  updated: function() {
+    $('.ui.left.pointing.label').hide();
+  },
   methods: {
     hideLoginModal: function() {
       this.$refs.login_modal.hide();
@@ -93,12 +105,24 @@ export default {
         email: this.$data.email,
         password: this.$data.password
       };
+      var valid = (account.email && account.password);
+      if(!account.email) {
+        $('#login-email .ui.left.pointing.label').text('请填写用户邮箱');
+        $('#login-email .ui.left.pointing.label').show();
+      }
+      if(!account.password) {
+        $('#login-password .ui.left.pointing.label').text('请填写用户密码');
+        $('#login-password .ui.left.pointing.label').show();
+      }
+      if(!valid) return;
       var _this = this;
       var urls = [
         'http://193.112.111.199:9090/individual-login',
         'http://193.112.111.199:9090/group-user-login',
         'http://193.112.111.199:9090/group-internal-login'
       ];
+      $('#login-footer i').addClass('spinner loading');
+      $('#login-footer i').removeClass('checkmark');
       async.map(urls, function(_url, callback) {
         _this.ajaxPromise({
           url: _url,
@@ -117,6 +141,8 @@ export default {
           callback(err, null);
         })
       }, function(err, res) {
+        $('#login-footer i').removeClass('spinner loading');
+        $('#login-footer i').addClass('checkmark');
         if(err) {
           console.log(err);
           return;
@@ -124,7 +150,8 @@ export default {
         var e = false;
         for(var i = 0; i < res.length; i++) e |= res[i];
         if(!e) {
-          $('#login_modal .field').addClass('error');
+          $('.ui.left.pointing.label').text('邮箱或密码错误');
+          $('.ui.left.pointing.label').show();
           return;
         }
         console.log(res);
@@ -145,7 +172,7 @@ export default {
         .catch(err => {
           console.log(err);
         })
-      }); 
+      });
     },
     logout: function() {
       this.ajaxPromise({
