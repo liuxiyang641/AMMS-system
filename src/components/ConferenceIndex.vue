@@ -17,7 +17,7 @@
                 </b-tab>
                 <b-tab v-if="Session.individualUser()" title="我的投稿">
                 </b-tab>
-                <b-tab v-if="isOwner" title="会议投稿">
+                <b-tab v-if="isOwner===true" title="会议投稿">
                     <PaperList :papers="papers"></PaperList>
                 </b-tab>
             </b-tabs>
@@ -73,6 +73,7 @@
           axios.get(url).then(
               (res)=> {
              this.isOwner=res.data;
+             console.log(this.isOwner);
           }).catch((error) => {
               console.log(error);
           });
