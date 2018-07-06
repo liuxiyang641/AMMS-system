@@ -1,5 +1,12 @@
 <template>
     <div>
+        <b-alert :show="messageArg.dismissCountDown"
+                 dismissible
+                 variant="success"
+                 @dismissed="messageArg.dismissCountDown=0"
+                 @dismiss-count-down="countDownChanged">
+            评审结果发送成功
+        </b-alert>
         <table class="ui celled padded table">
             <thead>
             <tr>
@@ -38,9 +45,10 @@
         </table>
         <b-modal ref="review_modal" id="review_modal" centered title="录入评审结果" style="height: auto;">
             <div>
-                <select class="ui dropdown" v-model="reviewResult.resultStatus" style="width: 50%;" >
+                <select class="ui dropdown" v-model="reviewResult.resultStatus" style="width: 50%;">
                     <option :value="2" style="display: flow">通过</option>
-                    <option :value="3">需要修改</option>
+                    <!--修改中不需要再次提交修改意见-->
+                    <option :value="3" v-if="this.reviewResult.reviewPaperStatus!==3">需要修改</option>
                     <option :value="4">未通过</option>
                 </select>
                 <form class="ui form" v-if="reviewResult.resultStatus===3" style="margin-top: 10px">
@@ -59,10 +67,6 @@
             <div class="ui warning message" style="display: none">
                 <div class="header">注意：</div>
                 <p>请选择相应的评审结果</p>
-            </div>
-            <div class="ui success message" style="display: none">
-                <div class="header">成功</div>
-                <p>评审结果发送成功</p>
             </div>
             <div slot="modal-footer">
                 <div class="ui black button" @click="hideModal">取消</div>
@@ -93,6 +97,10 @@ export default {
                 reviewPaperStatus:null,
                 reviewDescription:null
             },
+            messageArg:{
+                dismissSecs: 1,
+                dismissCountDown: 0
+            }
 		}
 	},
 	watch: {
@@ -104,6 +112,12 @@ export default {
 		}
 	},
 	methods: {
+        countDownChanged (dismissCountDown) {
+            this.messageArg.dismissCountDown = dismissCountDown
+        },
+        showAlert () {
+            this.messageArg.dismissCountDown = this.messageArg.dismissSecs
+        },
 	    resetData:function(){
             this.reviewResult.resultStatus=null;
             this.reviewResult.reviewPaperId=null;
@@ -113,14 +127,12 @@ export default {
 	    hideModal:function(){
             this.resetData();
             $('.ui.warning.message').hide();
-            $('.ui.success.message').hide();
             $('.ui.segment').hide();
 	        this.$refs.review_modal.hide();
         },
         showModal:function(paperid,paperstatus){
             this.$refs.review_modal.show();
             $('.ui.warning.message').hide();
-            $('.ui.success.message').hide();
             this.reviewResult.reviewPaperId=paperid;
             this.reviewResult.reviewPaperStatus=paperstatus;
         },
@@ -163,7 +175,8 @@ export default {
                             }
                             return false;
                         });
-                        $('.ui.success.message').show();
+                        this.hideModal();
+                        this.showAlert();
                     }
                 ).catch((error) => {
                     console.log(error);
@@ -194,11 +207,6 @@ export default {
 	},
 	created: function () {
 		this.getPapers();
-	},
-	watch: {
-		'$route.params': function() {
-			this.getPapers();
-		}
 	},
     mounted:function(){
         axios.interceptors.request.use(config => {
