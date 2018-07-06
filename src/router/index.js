@@ -2,14 +2,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import SearchResultIndex from '@/components/SearchResultIndex'
 import Index from '@/components/Index'
-import ConferenceIndex from '@/components/ConferenceIndex'
+import ConferenceInfo from '@/components/ConferenceInfo'
 import UserIndex from '@/components/UserIndex'
 import Register from '@/components/Register'
-import GetPaper from '@/components/manege'
+import PaperSubmission from '@/components/PaperSubmission' 
+import ConferencePersonalPaperList from '@/components/ConferencePersonalPaperList'
+import InternalUsers from '@/components/InternalUsers'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -20,20 +23,24 @@ export default new Router({
       component: SearchResultIndex
     },
     {
-      path: '/conference/:id',
-      component: ConferenceIndex
+      path: '/conference/:id/info',
+      component: ConferenceInfo,
     },
     {
-      path: '/user/:id',
-      component: UserIndex
+      path: '/conference/:id/paper-submission',
+      component: PaperSubmission
     },
     {
-      path:'/register',
-      component:Register
+      path: '/conference/:id/paper-list',
+      component: ConferencePersonalPaperList
     },
-      {
-          path: '/user/:type/:id',
-          component: UserIndex
-      }
+    {
+      path: '/user/:id/internal-user-manage',
+      component: InternalUsers
+    },
+    {
+      path: '/register',
+      component: Register
+    }
   ]
 })
