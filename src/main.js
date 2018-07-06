@@ -10,11 +10,13 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './css/global.css'
 import Session from './js/session.js'
 import ajaxPromiser from './js/ajaxPromise.js'
+import Axios from './js/axiosService.js'
 
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Vue.prototype.Session = Session
 Vue.prototype.ajaxPromise = ajaxPromiser.ajaxPromise
+Vue.prototype.Axios = Axios.Axios
 
 /* eslint-disable no-new */
 new Vue({

@@ -21,20 +21,10 @@ import util from 'util'
 
 export default {
 	name: 'App',
-  data: function() {
-    return {
-    }
-  },
   components: {
     Navbar,
     Sidebar
   },
-  /*watch: {
-    '$route.path': function() {
-      this.a = this.$route.path;
-      this.getService();
-    }
-  },*/
   methods: {
     inIndex: function() {
       return this.$route.path == '/';
@@ -44,10 +34,10 @@ export default {
     },
     getService: function() {
       var ret = this.inConferenceIndex() ? this.Session.conference() : this.Session.personal();
-      if(!this.inConferenceIndex() || !this.Session.login()) return ret;
       for(var i = 0; i < ret.length; i++) {
         ret[i].route = ret[i].route.replace(/_filler_/, this.$route.params.id);
       }
+      if(!this.inConferenceIndex() || !this.Session.login()) return ret;
       var typecode = this.Session.individualUser() ? 1 : (this.Session.groupUser() ? 2 : 3); 
       var url = 'http://192.144.153.164:9000/conference/permission';
       axios.get(url, {

@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import SearchResultIndex from '@/components/SearchResultIndex'
 import Index from '@/components/Index'
 import ConferenceInfo from '@/components/ConferenceInfo'
-import UserIndex from '@/components/UserIndex'
+import UserInfo from '@/components/UserInfo'
 import Register from '@/components/Register'
 import PaperSubmission from '@/components/PaperSubmission' 
 import ConferencePersonalPaperList from '@/components/ConferencePersonalPaperList'
@@ -38,6 +38,10 @@ export default new Router({
     {
       path: '/conference/:id/all-paper',
       component: ConferencePaperList
+    },
+    {
+      path: '/user/:id/info',
+      component: UserInfo
     },
     {
       path: '/user/:id/internal',

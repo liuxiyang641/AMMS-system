@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="ui container">
         <form class="ui form" id="submission-form" ref="submissionref">
             <div class="required field">
                 <label>投稿名称</label>
@@ -40,13 +40,14 @@
             </div>
 
             <br/>
-            <button class="ui orange button" @click="submit($event)" style="margin-top: 0.5rem"><i class="upload icon"></i>&nbsp;提交论文</button>
-            <div class="ui segment" style="display: none">
-                <p></p>
-                <div class="ui dimmer active">
-                    <div class="ui loader"></div>
-                </div>
-            </div>
+            <button id="paper-submit-btn" class="ui orange button" 
+              @click="submit($event)" 
+              style="margin-top: 0.5rem">
+                <i class="upload icon"></i>
+                &nbsp;提交论文&nbsp;&nbsp;
+                <i class="spinner loading icon" style="display: none"></i>
+            </button>
+            
             <div class="ui success message">
                 <div class="header">提交成功!</div>
                 <p>你的论文已提交成功，请耐心等待评审结果</p>
@@ -68,8 +69,8 @@
 </template>
 
 <script>
-    import axios from 'axios';
-    const querystring = require('querystring');
+    import querystring from 'querystring';
+
     export default {
         name: "PaperSubmission",
         data () {
@@ -82,30 +83,31 @@
                 paper_author:null,
                 paper_name:null,
                 file_url:null,
-                conference_id:null,
-                user_ids:this.Session.get('user_id'),
             }
+        },
+        updated: function() {
+          $('#submission-form .ui.pointing.label').hide();
         },
         methods: {
             uploading:function(event){
                 this.file = event.target.files[0];//获取文件
             },
             checkSubmission:function () {
-                if (this.paper_name===''){
+                if (!this.paper_name){
                     this.$refs.paper_name.style.display="";
                     return false;
                 }
-                if (this.paper_abstract===''){
+                if (!this.paper_abstract){
                     this.$refs.paper_abstract.style.display="";
                     return false;
                 }
-                if (this.paper_author===''){
+                if (!this.paper_author){
                     this.$refs.paper_author.style.display="";
                     return false;
                 }
                 return true;
             },
-            hideAllMessage:function () {
+            hideAllMessage: function () {
                 this.$refs.paper_name.style.display="none";
                 this.$refs.paper_abstract.style.display="none";
                 this.$refs.paper_author.style.display="none";
@@ -115,8 +117,8 @@
                 $('#errorSubmission').hide();
                 $('#repeatPaper').hide();
             },
-            async submit (event) {
-                event.preventDefault();//取消默认行为
+            submit: function(event) {
+                event.preventDefault(); 
                 this.hideAllMessage();
                 //检查必填项
                 if (!this.checkSubmission()) {
@@ -124,7 +126,7 @@
                     return;
                 }
                 //没有选择文件
-                if (this.file===''){
+                if (this.file === ''){
                     $('.ui.warning.message').show();
                     this.$refs.file.style.display="";
                     return;
@@ -132,96 +134,67 @@
                 let fileData = new FormData();
                 fileData.append('UPLOAD', this.file);
 
-                let config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',  //之前说的以表单传数据的格式来传递fromdata
-                    }
-                };
                 //先上传文件，再post所有投稿信息
-                axios.post('http://193.112.111.199:9090/upload-file', fileData, config).then(
-                    (res)=>{
-                        res=JSON.parse(res.data.replace(/'/g,`"`));
-                        if (res.status==='1'){
-                            //获取返回值，第二次post用到
-                            this.file_status=res.status;
-                            this.file_url=res.file_url;
-                        }
-                        else {
-                            $('#errorSubmission').show();
-                        }
+                $('#paper-submit-btn .spinner.loading.icon').show();
+                this.Axios.post(
+                  'http://193.112.111.199:9090/upload-file',
+                  fileData,
+                  {
+                    headers: {
+                      'Content-Type': 'multipart/form-data',
                     }
-                ).catch((error) => {
-                    console.log(error);
-                    $('#errorSubmission').show();
-                }).then(
-                    ()=>{
-                        let config = {
-                            headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-                            }
-                        };
-                        let data={
-                            file_status: this.file_status,
-                            institution: this.institution,
-                            paper_abstract:this.paper_abstract,
-                            paper_author:this.paper_author,
-                            paper_name:this.paper_name,
-                            file_url:this.file_url,
-                            conference_id:this.$route.params.id,
-                            user_ids:this.Session.get('user_id')
-                        };
-                        //深渊无敌巨坑，axios与jQuery的post方法实现起来不一样！！要发送application/x-www-form-urlencoded，需要querystring
-                        axios.post('http://193.112.111.199:9090/contribute',querystring.stringify(data),config).then((res) => {
-                            //处理返回的结果
-                            console.log(res);
-                            if (res.data===1){            //重复论文提交
-                                $('#repeatPaper').show();
-                            }
-                            else if (res.data===2){           //提交成功
-                                $('.ui.success.message').show();
-                            }
-                            else {
-                                $('.ui.warning.message').show();        //无文件上传
-                            }
-                        }).catch((error) => {
-                            console.log(error);
-                            $('#errorSubmission').show();
-                        });
-                    });
-            },
-        },
-        mounted:function(){
-            axios.interceptors.request.use(config => {
-                $('.ui.segment').show();
-                return config
-            }, error => {
-                //请求错误时做些事
-                return Promise.reject(error)
-            });
-            //添加响应拦截器
-            axios.interceptors.response.use(response => {
-                $('.ui.segment').hide();
-                return response
-            }, error => {
-                //请求错误时做些事
-                return Promise.reject(error)
-            })
-        },
+                  }
+                )
+                .then(res => {
+                  console.log(res);
+                  res = JSON.parse(res.data.replace(/'/g,'\"'));
+                  if (res.status === '1') {
+                      this.file_status = res.status;
+                      this.file_url = res.file_url;
+                  }
+                  else throw 'upload failed';
+                })
+                .then(() => {
+                  let submissionParam = {
+                      file_status: this.file_status,
+                      institution: this.institution,
+                      paper_abstract: this.paper_abstract,
+                      paper_author: this.paper_author,
+                      paper_name: this.paper_name,
+                      file_url: this.file_url,
+                      conference_id: this.$route.params.id,
+                      user_ids: this.Session.get('user_id')
+                  };
+                  this.Axios.post(
+                      'http://193.112.111.199:9090/contribute', 
+                      submissionParam,
+                      {
+                        headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+                        }
+                      }
+                  ).then(res => {
+                      console.log(res);
+                      $('#paper-submit-btn .spinner.loading.icon').hide();
+                      if (res.data === 1) {            //重复论文提交
+                          $('#repeatPaper').show();
+                      }
+                      else if (res.data === 2) {           //提交成功
+                          $('.ui.success.message').show();
+                      }
+                      else {
+                          $('.ui.warning.message').show();        //无文件上传
+                      }
+                  }).catch(error => {
+                    throw error;
+                  });
+                })
+                .catch(err => {
+                  console.log(err);
+                  $('#errorSubmission').show();
+                })
+            }
+        }
     }
 </script>
 
-<style scoped>
-    .fileinput-button {
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-    }
-
-    .fileinput-button input{
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        opacity: 0;
-        -ms-filter: 'alpha(opacity=0)';
-    }
-</style>
