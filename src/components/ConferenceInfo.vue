@@ -70,7 +70,6 @@
                  具体时间: conferenceInfo[key]
                })
              }
-             console.log(items);
              conferenceInfo.items = items;
              this.conferenceInfo = conferenceInfo;
             }

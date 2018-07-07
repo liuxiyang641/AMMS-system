@@ -39,6 +39,14 @@ function remind(param) {
        normal();
      }, 2500);
   }
+  else {
+    /*setTimeout(function() {
+      remind({
+        type: 'error',
+        header: '请求超时！'
+      })
+    }, 8000)*/
+  }
 }
 
 export default {

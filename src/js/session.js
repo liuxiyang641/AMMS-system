@@ -72,12 +72,6 @@ function creview() {
     route: '/conference/_filler_/review'
   }
 }
-function cattend() {
-  return {
-    service: '注册会议',
-    route: '/conference/_filler_/attend'
-  }
-}
 
 var personalService = {
   individual_user: [iinfo(), icol(), ipaper(), iattend()],
@@ -87,7 +81,7 @@ var personalService = {
 }
 
 var conferenceService = {
-  individual_user: [cinfo(), csubmit(), cpaper(), cattend()],
+  individual_user: [cinfo(), csubmit(), cpaper()],
   group_user: [cinfo()],
   group_internal_user: [cinfo()],
   null: [cinfo()]

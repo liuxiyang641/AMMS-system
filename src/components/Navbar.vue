@@ -185,6 +185,7 @@ export default {
       });
     },
     logout: function() {
+      var _this = this;
       this.ajaxPromise({
         url: 'http://193.112.111.199:9090/logout',
         type: "GET",
@@ -195,7 +196,7 @@ export default {
       })
       .then(() => {
         this.Session.clear();
-        window.location.reload();
+        window.location.href = '/';
       })
       .catch(err => {
         console.log(err);

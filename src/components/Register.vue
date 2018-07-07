@@ -1,8 +1,5 @@
 <template>
-    <div class="ui container" style="margin-top: 5rem;width: 45%">
-        <!--<div class="ui attached message" style="background-color: black;color: white">-->
-            <!--<div class="header">欢迎注册成为我们的新用户</div>-->
-        <!--</div>-->
+    <div class="ui container" style="margin-top: 5rem;width: 60%">
         <div class="ui three top steps ordered">
             <div class="step" :class="classOfStep(1)">
                 <div class="content">
@@ -86,7 +83,12 @@
                     </div>
                 </div>
                 <br/>
-                <button class="ui black button" @click.prevent="individualUserRegister()" style="margin-bottom: 0.5rem">&nbsp;注册</button>
+                <button class="ui black button"
+                   @click.prevent="individualUserRegister()" 
+                   style="margin-bottom: 0.5rem">
+                  &nbsp;注册
+                </button>
+
                 <div class="ui segment" style="display: none" id="loading_dimmer">
                     <p></p>
                     <div class="ui dimmer active">

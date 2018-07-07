@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import Administrator from '@/components/Administrator'
 import Index from '@/components/Index'
 import Register from '@/components/Register'
 
@@ -27,6 +28,10 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/administrator',
+      component: Administrator
+    },
+    {
       path: '/',
       component: Index
     },
@@ -51,11 +56,11 @@ export default new Router({
       component: ConferenceReview
     },
     {
-      path: '/conference/:id/attend',
+      path: '/conference/:id/register',
       component: ConferenceRegister
     },
     {
-      path: '/conference/:id/all-attend',
+      path: '/conference/:id/registration',
       component: ConferenceRegistrationList
     },
     {

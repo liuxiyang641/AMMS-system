@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="ui container">
 		<b-alert :show="messageArg.dismissCountDown"
         	dismissible
             variant="success"
