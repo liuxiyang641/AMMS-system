@@ -6,7 +6,7 @@
     </Sidebar>
     <div
       :style="inIndex() ? 'margin-top:5%;height:100%;width:100%;'
-          : 'margin-left:15%;margin-top:8%;'">
+          : 'margin-left:15%;margin-top:8%;margin-bottom: 3%;'">
       <router-view />
     </div>
   </div>

@@ -7,6 +7,7 @@
         <th>论文名称</th>
         <th>论文版本</th>
         <th>作者</th>
+        <th>最新修改说明</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -16,17 +17,18 @@
         <td>{{paper.paper_name}}</td>
         <td>{{paper.version}}</td>
         <td>{{paper.paper_author}}</td>
+        <td>{{paper.modify_description}}</td>
         <td>
           <button class="ui button" @click="download(paper.paper_id)">下载稿件</button>
-          <button class="ui button">修改稿件</button>
+          <button class="ui button" @click="update(paper.paper_id)">修改稿件</button>
         </td>
       </tr>
       </tbody>
       <tfoot class="full-width">
       <tr>
         <th></th>
-        <th colspan="4">
-          <div class="ui right floated small primary labeled icon button" @click="">
+        <th colspan="5">
+          <div class="ui right floated small primary labeled icon button" @click="submit">
             <i class="user icon"></i> 上传稿件
           </div>
         </th>
@@ -54,8 +56,10 @@
                     GetPaper(individual_user_id:$userid,conference_id:$confid){
                       paper_id,
                       paper_name,
+                      paper_abstract,
                       version,
-                      paper_author
+                      paper_author,
+                      modify_description
                     }
                   }
               `,
@@ -75,6 +79,24 @@
           })
           .catch(err => {
             console.log(err);
+          })
+       },
+       submit: function() {
+         this.$router.push({
+           path: '/conference/' + this.$route.params.id + '/submit'
+         })
+       },
+       update: function(paper_id) {
+          var paper_info = null;
+          for(var key in this.paperInfo) {
+            if(this.paperInfo[key].paper_id == paper_id) paper_info = this.paperInfo[key];
+          }
+          this.$router.push({
+            path: '/conference/' + this.$route.params.id + '/submit',
+            query: {
+              update: true,
+              paper_info: paper_info
+            }
           })
        },
        download: function(paper_id) {
