@@ -3,49 +3,49 @@ import util from 'util'
 function iinfo() {
   return {
     service: '个人信息',
-    route: util.format('/user/%s/info', get('user_id'))
+    route: util.format('/user/%s/%s/info', get('type'), get('user_id'))
   }
 }
 function icol() {
   return {
     service: '我的收藏',
-    route: util.format('/user/%s/collection', get('user_id'))
+    route: util.format('/user/%s/%s/collection', get('type'), get('user_id'))
   }
 }
 function ipaper() {
   return {
     service: '我的投稿',
-    route: util.format('/user/%s/paper', get('user_id'))
+    route: util.format('/user/%s/%s/paper', get('type'), get('user_id'))
   }
 }
 function iattend() {
   return {
     service: '我的注册',
-    route: util.format('/user/%s/attendance', get('user_id'))
+    route: util.format('/user/%s/%s/attendance', get('type'), get('user_id'))
   }
 }
 function ginfo() {
   return {
     service: '单位信息',
-    route: util.format('/user/%s/info', get('user_id'))
+    route: util.format('/user/%s/%s/info', get('type'), get('user_id'))
   }
 }
 function grelease() {
   return {
     service: '发布会议',
-    route: util.format('/user/%s/release', get('user_id'))
+    route: util.format('/user/%s/%s/release', get('type'),get('user_id'))
   }
 }
 function ginternal() {
   return {
     service: '内部用户管理',
-    route: util.format('/user/%s/internal', get('user_id'))
+    route: util.format('/user/%s/%s/internal', get('type'),get('user_id'))
   }
 }
 function gconfs() {
   return {
     service: '我的会议',
-    route: util.format('/user/%s/conference', get('user_id'))
+    route: util.format('/user/%s/%s/conference', get('type'),get('user_id'))
   }
 }
 function cinfo() {

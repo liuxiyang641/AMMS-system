@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="ui container">
 		<button v-b-modal.modal2>添加内部用户</button>
 		<b-modal v-model="visible" centered title="内部用户注册" hide-footer id="modal2">
 			<form class="ui form" id="internal-user-form">
