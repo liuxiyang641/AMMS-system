@@ -40,14 +40,14 @@
             </div>
 
             <br/>
-            <button id="paper-submit-btn" class="ui orange button" 
-              @click="submit($event)" 
+            <button id="paper-submit-btn" class="ui orange button"
+              @click="submit($event)"
               style="margin-top: 0.5rem">
                 <i class="upload icon"></i>
                 &nbsp;提交论文&nbsp;&nbsp;
                 <i class="spinner loading icon" style="display: none"></i>
             </button>
-            
+
             <div class="ui success message">
                 <div class="header">提交成功!</div>
                 <p>你的论文已提交成功，请耐心等待评审结果</p>
@@ -86,7 +86,7 @@
             }
         },
         updated: function() {
-          $('#submission-form .ui.pointing.label').hide();
+          // $('#submission-form .ui.pointing.label').hide();
         },
         methods: {
             uploading:function(event){
@@ -118,7 +118,7 @@
                 $('#repeatPaper').hide();
             },
             submit: function(event) {
-                event.preventDefault(); 
+                event.preventDefault();
                 this.hideAllMessage();
                 //检查必填项
                 if (!this.checkSubmission()) {
@@ -166,8 +166,8 @@
                       user_ids: this.Session.get('user_id')
                   };
                   this.Axios.post(
-                      'http://193.112.111.199:9090/contribute', 
-                      submissionParam,
+                      'http://193.112.111.199:9090/contribute',
+                      querystring.stringify(submissionParam),
                       {
                         headers: {
                           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',

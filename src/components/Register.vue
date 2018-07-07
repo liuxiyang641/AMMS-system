@@ -1,5 +1,5 @@
 <template>
-    <div class="ui container" style="margin-top: 5rem;width: 45%">
+    <div class="ui container" style="margin-top: 5rem;width: 60%">
         <div class="ui three top steps ordered">
             <div class="step" :class="classOfStep(1)">
                 <div class="content">

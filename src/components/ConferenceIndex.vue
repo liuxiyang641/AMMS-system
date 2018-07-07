@@ -1,9 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div class="ui container">
-    <ConferenceInfo></ConferenceInfo>
-  </div>
-=======
     <div class="ui container">
         <b-card no-body>
             <b-tabs pills card vertical>
@@ -24,26 +19,20 @@
         </b-card>
     </div>
 
->>>>>>> cf564dc99efcda6ef63183102a388cbb530a89ff
 </template>
 
 <script>
   import ConferenceInfo from '@/components/ConferenceInfo'
-<<<<<<< HEAD
-=======
   import SearchPanel from '@/components/SearchPanel'
   import PaperSubmission from '@/components/paper-submission'
   import PaperList from '@/components/PaperList'
   import axios from 'axios'
 
 
->>>>>>> cf564dc99efcda6ef63183102a388cbb530a89ff
   export default {
     name: "ConferenceIndex",
     components: {
       ConferenceInfo,
-<<<<<<< HEAD
-=======
       SearchPanel,
 	  PaperSubmission,
 	  PaperList,
@@ -77,7 +66,6 @@
           }).catch((error) => {
               console.log(error);
           });
->>>>>>> cf564dc99efcda6ef63183102a388cbb530a89ff
     }
 }
 </script>
