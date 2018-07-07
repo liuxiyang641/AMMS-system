@@ -41,6 +41,20 @@
                         <b-table striped hover bordered :items="items" :fields="fields" style="width: 40%"></b-table>
                     </p>
                 </b-row>
+                <!--论文模板-->
+                 <b-row>
+                    <h4><i class="calendar icon"></i>论文模板</h4>
+                    <p>
+                    <form action='http://192.144.136.166:4040/download'
+                          method='post'
+                           encType="multipart/form-data">
+                        <input v-model="confId" type="text" name="ConferenceID_Download" hidden/>
+                        <input type='submit' v-if="paper_template_url" :value='paper_template_url'/>
+                    </form>
+                    </p>
+                </b-row>
+
+
                 <!--日程安排-->
                 <b-row>
                     <h4><i class="calendar icon"></i>日程安排</h4>
@@ -88,7 +102,8 @@
                 fields: [ '相关日期', '具体时间' ],
 				        favorite: false,
                 variant_class: '',
-                items: []
+                items: [],
+                confId: this.$route.params.id
             };
             for(var key in this.conf) raw[key] = this.conf[key];
             return raw;
@@ -100,7 +115,7 @@
           }
         },
         methods: {
-			     ChangeUserFavorite: function() {
+          ChangeUserFavorite: function() {
 			       $.post('http://192.144.153.164:9000/collection', {
 			     	  conferenceid: this.$route.params.id,
 			     	  userid: this.Session.get('user_id')
@@ -127,6 +142,7 @@
         },
         created: function () {
 		      	this.IsUserFavorite();
+
         },
         watch:{
             '$route.params': function () {

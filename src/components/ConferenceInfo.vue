@@ -6,9 +6,9 @@
 </template>
 
 <script>
-  import axios from 'axios';
-	import Template1 from '@/components/templates/Template1'
-	import Template2 from '@/components/templates/Template2'
+    import axios from 'axios';
+  	import Template1 from '@/components/templates/Template1'
+  	import Template2 from '@/components/templates/Template2'
 
     export default {
         name: "ConferenceInfo",
@@ -64,18 +64,16 @@
                end_time: '会议结束日期',
              };
              var items = [];
-             for(var key in conferenceInfo) {
-               if(key.slice(-8) == 'deadline' || key.slice(-4) == 'time') {
-                 items.push({
-                   相关日期: date_anno[key],
-                   具体时间: conferenceInfo[key]
-                 })
-               }
+             for(var key in date_anno) {
+               items.push({
+                 相关日期: date_anno[key],
+                 具体时间: conferenceInfo[key]
+               })
              }
+             console.log(items);
              conferenceInfo.items = items;
              this.conferenceInfo = conferenceInfo;
             }
-
         },
         created: function () {
             this.GetConference();
