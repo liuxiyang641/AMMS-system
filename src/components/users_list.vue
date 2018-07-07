@@ -13,6 +13,7 @@
 				<th>注册ID</th>
 				<th>邮箱</th>
 				<th>单位名称</th>
+				<th>单位ID</th>
 				<th>联系电话</th>
 				<th>法人照片</th>
 				<th>状态</th>
@@ -24,6 +25,7 @@
 				<td>{{user.id}}</td>
 				<td>{{user.email}}</td>
 				<td>{{user.company_name}}</td>
+				<td>{{user.company_id}}</td>
 				<td>{{user.contacter_phone}}</td>
 				<td>
 					<img :src="'http://' + user.corporation_photo_url" style="color: black" class='min' onclick="this.className = this.className == 'max' ? 'min' : 'max';" id="image1" >
@@ -207,6 +209,7 @@ export default{
 								contacter_name
 								contacter_phone
 								company_name
+								company_id
 								communication_address
 								corporation_photo_url
 								status
@@ -214,16 +217,6 @@ export default{
 						}`
 				}
 			).then((response) => {
-				/*this.user.group_user_id = response.data.id;
-				this.user.email=response.data.email;
-				this.user.company_name=response.data.company_name;
-				this.user.contactor_phone=response.data.contactor_phone;
-				this.user.status=response.data.status;
-				this.user.group_user_id = 0;
-				this.user.email=0;
-				this.user.company_name=0;
-				this.user.contactor_phone=0;
-				this.user.status=0;*/
 				
 				this.user = response.data.data.GetPendingGroupUsers;
 				

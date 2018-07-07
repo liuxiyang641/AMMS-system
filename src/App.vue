@@ -1,15 +1,15 @@
 <template>
   <div>
-    <register_meeting_user_list></register_meeting_user_list>
+    <users_list></users_list>
   </div>
 </template>
 
 <script>
-import register_meeting_user_list from './components/register_meeting_user_list.vue'
+import users_list from './components/users_list'
 export default {
   name: 'App',
   components:{
-  register_meeting_user_list,
+  users_list,
   }
 }
 </script>
