@@ -4,11 +4,11 @@
         style="position: absolute; left: 0; right: 0; z-index: -1; height: 100%; width: 100%; opacity: 0.4;" /> 
       <div class="ui text container">
        <h1 class="ui header" style="font-size: 3rem;">
-          AMMS会议管理系统
+          ACMS会议管理系统
         </h1>
         <h2>All in here</h2>
         <div class="ui hidden divider"></div>
-        <div class="ui huge primary button">
+        <div @click="search" class="ui huge primary button">
           最新会议
           <i class="right arrow icon"></i>
         </div>
@@ -28,12 +28,16 @@
 
   export default {
   	name: 'Index',
-    data: function() {
-      return {
+    methods: {
+      search: function() {
+        this.$router.push({
+          path: '/search',
+          query: {
+            keyword: ''
+          }
+        })
       }
-    },
-  	components: {
-  	}
+    } 
   }
 </script>
 

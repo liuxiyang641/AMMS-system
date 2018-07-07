@@ -5,7 +5,7 @@
         <img src="../assets/logo.png" />
       </div>
     </div>
-    <a class="item" href="/"><strong>AMMS会议管理系统</strong></a>
+    <a class="item" href="/"><strong>ACMS会议管理系统</strong></a>
     <div class="item">
        <div class="ui fluid search">
          <div class="ui icon input">
@@ -58,8 +58,6 @@ import async from 'async'
 
 export default {
 	name: 'Navbar',
-  components: {
-  },
   data: function() {
     return {
       email: null,

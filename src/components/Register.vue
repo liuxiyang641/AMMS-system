@@ -224,8 +224,9 @@
                 this.relatedFile = event.target.files[0];//获取文件
             },
             individualUserRegister:function () {
+                $('.ui.warning.message').hide();
                 if (this.individualName===''||this.individualEmail===''||this.individualPassword===''){
-                    $('#individual-user-form .ui.warning.message').show();
+                    $('.ui.warning.message').show();
                     return;
                 }
                 let requestData={
@@ -233,7 +234,6 @@
                     email:this.individualEmail,
                     password:this.individualPassword
                 };
-                $('#individual-user-form .spinner').show();
                 axios.post('http://192.144.153.164:9000/individual/register',requestData).then(
                     (res)=>{
                         if (res.data==='注册成功'){
@@ -256,7 +256,7 @@
                     this.companyId===''||
                     this.companyAddress===''||
                     this.relatedFile===''){
-                    $('#company-user-form .ui.warning.message').show();
+                    $('.ui.warning.message').show();
                     return;
                 }
                 let formData = new FormData();
@@ -270,10 +270,9 @@
                 formData.append('file',this.relatedFile);
                 let config = {
                     headers: {
-                        'Content-Type': 'multipart/form-data',  //之前说的以表单传数据的格式来传递formdata
+                        'Content-Type': 'multipart/form-data',  //之前说的以表单传数据的格式来传递fromdata
                     }
                 };
-                $('#company-user-form .spinner').show();
                 axios.post('http://192.144.153.164:9000/group/register', formData, config).then(
                     (res)=>{
                         //注册成功
@@ -285,9 +284,10 @@
                 ).catch((error) => {
                     console.log(error);
                 });
+
             }
         },
-        mounted: function() {
+        mounted:function(){
             axios.interceptors.request.use(config => {
                 $('#loading_dimmer').show();
                 return config
@@ -315,5 +315,17 @@
 </script>
 
 <style scoped>
+    .fileinput-button {
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+    }
 
+    .fileinput-button input{
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        opacity: 0;
+        -ms-filter: 'alpha(opacity=0)';
+    }
 </style>
