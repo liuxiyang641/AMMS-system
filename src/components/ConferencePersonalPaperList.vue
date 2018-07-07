@@ -49,7 +49,6 @@
     },
     methods: {
       GetPaper: function() {
-        console.log(1);
         axios.post('http://192.144.136.166:4040/graphql', {
           query: `
                   query GetPaper($userid:Int,$confid:Int) {
@@ -58,6 +57,7 @@
                       paper_name,
                       paper_abstract,
                       version,
+                      institution,
                       paper_author,
                       modify_description
                     }

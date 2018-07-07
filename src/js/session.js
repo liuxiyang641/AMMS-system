@@ -21,7 +21,7 @@ function ipaper() {
 function iattend() {
   return {
     service: '我的注册',
-    route: util.format('/user/%s/%s/attendance', get('type'), get('user_id'))
+    route: util.format('/user/%s/%s/registration', get('type'), get('user_id'))
   }
 }
 function ginfo() {
@@ -64,6 +64,12 @@ function cpaper() {
   return {
     service: '我的投稿',
     route: '/conference/_filler_/papers'
+  }
+}
+function creview() {
+  return {
+    service: '审核稿件',
+    route: '/conference/_filler_/review'
   }
 }
 function cattend() {

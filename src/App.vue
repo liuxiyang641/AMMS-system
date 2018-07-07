@@ -2,7 +2,7 @@
   <div id="app"> 
     <Navbar></Navbar>
     <Sidebar v-if="!inIndex()" 
-         :services="getService()">
+         :services="services">
     </Sidebar>
     <div
       :style="inIndex() ? 'margin-top:5%;height:100%;width:100%;'
@@ -21,9 +21,22 @@ import util from 'util'
 
 export default {
 	name: 'App',
+  data: function() {
+    return {
+      services: []
+    }
+  },
   components: {
     Navbar,
     Sidebar
+  },
+  created: function() {
+    this.getService();
+  },
+  watch: {
+    '$route.path': function() {
+      this.getService();
+    }
   },
   methods: {
     inIndex: function() {
@@ -37,7 +50,11 @@ export default {
       for(var i = 0; i < ret.length; i++) {
         ret[i].route = ret[i].route.replace(/_filler_/, this.$route.params.id);
       }
-      if(!this.inConferenceIndex() || !this.Session.login()) return ret;
+      if(!this.inConferenceIndex() || !this.Session.login()) {
+         this.services = ret;
+         return;
+      }
+      var _this = this;
       var typecode = this.Session.individualUser() ? 1 : (this.Session.groupUser() ? 2 : 3); 
       var url = 'http://192.144.153.164:9000/conference/permission';
       axios.get(url, {
@@ -48,21 +65,21 @@ export default {
         }
       })
       .then(res => {
-         if(res.data) {
+         if(Boolean(res.data)) {
            ret.push({
-             service: '投稿列表',
-             route: util.format('/conference/%s/all-paper', this.$route.params.id)
+             service: '审核稿件',
+             route: util.format('/conference/%s/review', this.$route.params.id)
            })
            ret.push({
              service: '注册列表',
              route: util.format('/conference/%s/all-attend', this.$route.params.id)
            })
          }
+         _this.services = ret;
       })
       .catch(err => {
         console.log(err);
       })
-      return ret;
     }
   }
 }

@@ -16,7 +16,7 @@
           在线投稿
           <i class="right arrow icon"></i>
         </div>
-        <div class="ui huge primary button" v-if="Session.instituteUser()">
+        <div class="ui huge primary button" v-if="Session.instituteUser()" @click="toRelease">
           发布会议
           <i class="right arrow icon"></i>
         </div>
@@ -29,6 +29,11 @@
   export default {
   	name: 'Index',
     methods: {
+      toRelease: function() {
+        this.$router.push({
+          'path': '/user/' + this.Session.get('type') + '/' + this.Session.get('user_id') + '/release' 
+        })
+      },
       search: function() {
         this.$router.push({
           path: '/search',

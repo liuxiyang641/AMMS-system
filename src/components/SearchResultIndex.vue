@@ -1,6 +1,6 @@
 <template>
   <div class="ui container">
-   <!--<SearchPanel></SearchPanel>-->
+   <SearchPanel></SearchPanel>
    <div class="ui three cards">
     <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
    </div>
