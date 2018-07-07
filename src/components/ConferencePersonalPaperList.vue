@@ -19,8 +19,8 @@
         <td>{{paper.paper_author}}</td>
         <td>{{paper.modify_description}}</td>
         <td>
-          <button class="ui button" @click="download(paper.paper_id)">下载稿件</button>
-          <button class="ui button" @click="update(paper.paper_id)">修改稿件</button>
+          <div class="ui button" @click="download(paper.paper_id)">下载稿件</div>
+          <div class="ui button" @click="update(paper.paper_id)">修改稿件</div>
         </td>
       </tr>
       </tbody>

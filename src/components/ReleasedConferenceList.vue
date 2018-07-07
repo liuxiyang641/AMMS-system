@@ -1,20 +1,26 @@
 <template>
-    <table class="ui celled padded table">
+  <div class="ui container">
+    <table class="ui celled table">
         <thead>
         <tr>
             <th>序号</th>
             <th>会议名称</th>
             <th>会议状态</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr v-for="conference in conferencesList" :key="conference.conference_id">
+        <tr align="center" v-for="conference in conferencesList" :key="conference.conference_id">
             <td>{{conference.conference_id}}</td>
-            <td><a :href=" '/#'+/conference/+conference.conference_id">{{conference.title}}</a></td>
+            <td><a :href=" '/conference/' + conference.conference_id + '/info'">{{conference.title}}</a></td>
             <td v-html="showStatus(conference.status)"></td>
+            <td>
+              <div class="ui small button" @click="updateConference">修改会议信息</div>
+            </td>
         </tr>
         </tbody>
     </table>
+  </div>
 </template>
 
 <script>
@@ -27,7 +33,10 @@
                 conferencesList:null
             }
         },
-        methods:{
+        methods: {
+          updateConference: function() {
+
+          },
             showStatus: function (statusCode) {
                 switch (statusCode){
                     case '0':

@@ -1,4 +1,5 @@
 <template>
+  <div class="ui container">
 	<div class="ui form">
 		<div class="required field">
 			<label>会议名称</label>
@@ -53,7 +54,7 @@
 		<div class="equal width fields">
 			<div class="field">
 				<label>论文模板</label>
-				<input type="file" v-on:change="uploadTemplate">
+				<input type="file" @change="uploadTemplate($event)">
 			</div>
 			<div class="field">
 				<label>注册费用</label>
@@ -78,9 +79,12 @@
 		<div class="ui buttons">
 			<button class="ui big submit button" @click="onReset">重置</button>
 			<div class="or"></div>
-			<button class="ui big positive submit button" @click="onSubmit">提交</button>
+			<button class="ui big positive submit button" @click="onSubmit">
+        提交
+      </button>
 		</div>
 	</div>
+  </div>
 </template>
 
 <script>
@@ -104,15 +108,19 @@
 					contactUs:'',
 					address: '',
 					template: 1,
-					userid: null
-				}
+					userid: null,
+				},
+        file: ''
 			}
 		},
 		methods: {
+      uploadTemplate: function(event) {
+        this.file = event.target.files[0];
+      },
 			async getGroupId() {
-				if(this.session('user_type') == 'group_user')
+				if(this.Session.groupUser())
 					this.form.userid = parseInt(this.$route.params.id);
-				else if(this.session('user_type') == 'group_internal_user') {
+				else if(this.Session.internalUser()) {
 					const res = await axios.post('http://193.112.111.199:9090/graphql', {
 						query: `query groupInternalUsers($id: String) {
 							groupInternalUsers(id: $id) {
@@ -131,15 +139,33 @@
 			onSubmit (evt) {
 				evt.preventDefault();
 				for(var key in this.form) {
-					//console.log(key + "=" + this.form[key]);
-					if(this.form[key] != '' && (key.slice(-8) == 'Deadline' || key.slice(-4) == 'Time'))
-						this.form[key] += 'T00:00:00';
 					if(key == 'registerFee') this.form[key] = parseInt(this.form[key]);
 				}
-				console.log(this.form);
-				axios.post('http://192.144.153.164:9000/conference', this.form).then(function(res) {
-					window.location.href = '/#/conference/' + res.data.conferenceId;
-				}).catch(function(err) {
+        var _this = this;
+				axios.post('http://192.144.153.164:9000/conference', this.form)
+        .then(function(res) {
+            console.log(res);
+            var file_data = new FormData();
+            file_data.append('ConferenceID_Upload', res.data.conferenceId);
+            file_data.append('TemplateFile', _this.file);
+
+            axios.post(
+                'http://192.144.136.166:4040/upload',
+                file_data,
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  }
+                }
+            )
+            .then(res => {
+              console.log(res);
+            })
+            .catch(err => {
+              throw err;
+            })
+				})
+        .catch(err => {
 					console.log(err);
 				});
 			},
@@ -148,12 +174,6 @@
 				for(var key in this.form) {
 					this.form[key] = '';
 				}
-			},
-			uploadTemplate() {
-				//console.log(this.files);
-			},
-			session: function(key) {
-				return window.localStorage.getItem(key);
 			},
 		},
 		created: function() {

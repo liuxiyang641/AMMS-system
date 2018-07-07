@@ -15,7 +15,7 @@
        </div>
     </div>
     <div class="right item">
-       <a class="ui inverted button mr-3" @click="toUser" v-if="Session.login()"> {{ Session.get('username') }} </a>
+      <a class="ui inverted button mr-3" @click="toUser" v-if="Session.login()"> {{ Session.get('username') }} </a>
       <a class="ui inverted button mr-3" v-else v-b-modal.login_modal>登录</a>
       <a class="ui inverted button" v-if="Session.login()" @click="logout">登出</a>
       <a class="ui inverted button" v-else href="/register">注册</a>
@@ -91,7 +91,7 @@ export default {
     },
     toUser: function() {
       this.$router.push({
-        path: '/user/' + this.Session.get('user_id') + '/info'
+        path: '/user/' + this.Session.get('type') + '/' + this.Session.get('user_id') + '/info'
       })
     },
     navSearch: function() {

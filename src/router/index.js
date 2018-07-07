@@ -9,6 +9,8 @@ import PaperSubmission from '@/components/PaperSubmission'
 import ConferencePersonalPaperList from '@/components/ConferencePersonalPaperList'
 import ConferencePaperList from '@/components/ConferencePaperList'
 import InternalUsers from '@/components/InternalUsers'
+import ReleaseConference from '@/components/ReleaseConference'
+import ReleasedConferenceList from '@/components/ReleasedConferenceList'
 
 Vue.use(Router)
 
@@ -40,11 +42,19 @@ export default new Router({
       component: ConferencePaperList
     },
     {
-      path: '/user/:id/info',
+      path: '/user/:type/:id/info',
       component: UserInfo
     },
     {
-      path: '/user/:id/internal',
+      path: '/user/:type/:id/release',
+      component: ReleaseConference
+    },
+    {
+      path: '/user/:type/:id/conference',
+      component: ReleasedConferenceList
+    },
+    {
+      path: '/user/:type/:id/internal',
       component: InternalUsers
     },
     {
