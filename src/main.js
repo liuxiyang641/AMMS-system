@@ -11,9 +11,9 @@ import './css/global.css'
 import Session from './js/session.js'
 import ajaxPromiser from './js/ajaxPromise.js'
 import Axios from './js/axiosService.js'
+import reminder from './js/reminder.js'
 import bModal from 'bootstrap-vue/es/components/modal/modal'
 import bModalDirective from 'bootstrap-vue/es/directives/modal/modal'
-
 
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
@@ -22,6 +22,8 @@ Vue.prototype.ajaxPromise = ajaxPromiser.ajaxPromise
 Vue.prototype.$axios=axios;
 Vue.prototype.$http=axios;
 Vue.prototype.Axios = Axios.Axios
+Vue.prototype.remind = reminder.remind
+Vue.prototype.unremind = reminder.normal
 
 /* eslint-disable no-new */
 new Vue({

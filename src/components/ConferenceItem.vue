@@ -1,5 +1,5 @@
 <template>
-  <a v-bind:href="'/conference/' + conference.conference_id + '/info'" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
+  <a @click="toConfInfo(conference.conference_id)" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
       <div class="center aligned content">
         <div class="header"> {{ conference.title }} </div>
         <div class="meta"> {{ conference.institution }} </div>
@@ -20,6 +20,13 @@ export default {
   data: () => {
     return {
       text_stat: ['投稿中', '已截稿', '注册中', '截止注册', '会议中', '会议完成']
+    }
+  },
+  methods: {
+    toConfInfo: function(id) {
+      this.$router.push({
+        path: '/conference/' + id + '/info' 
+      })
     }
   },
 	props: {

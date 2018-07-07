@@ -5,7 +5,9 @@
         <img src="../assets/logo.png" />
       </div>
     </div>
-    <a class="item" href="/"><strong>ACMS会议管理系统</strong></a>
+    <div class="item" @click="toIndex()">
+      <strong>ACMS会议管理系统</strong>
+    </div>
     <div class="item">
        <div class="ui fluid search">
          <div class="ui icon input">
@@ -86,6 +88,11 @@ export default {
     $('#login_modal .ui.left.pointing.label').hide();
   },
   methods: {
+    toIndex: function() {
+      this.$router.push({
+        path: '/'
+      })
+    },
     hideLoginModal: function() {
       this.$refs.login_modal.hide();
     },

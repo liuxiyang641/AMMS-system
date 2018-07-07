@@ -50,10 +50,10 @@
                             }`, this.$route.params.id)
           });
           this.paperInfo = res.data.data.GetAllSubmissions;
-          var tmp=this.paperInfo;
+          var tmp = this.paperInfo;
+          console.log(tmp);
           for(var p in tmp)
           {
-            console.log(tmp);
             switch (tmp[p].paper_status)
             {
             case 1:
@@ -84,18 +84,5 @@
 
 
 <style scoped>
-  .fileinput-button {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
-  }
-
-  .fileinput-button input{
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    opacity: 0;
-    -ms-filter: 'alpha(opacity=0)';
-  }
 </style>
 

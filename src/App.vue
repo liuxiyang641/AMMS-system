@@ -9,6 +9,13 @@
           : 'margin-left:15%;margin-top:8%;margin-bottom: 3%;'">
       <router-view />
     </div>
+    <div class="ui success icon message reminder">
+      <i class="big checkmark icon"></i>
+      <div class="content">
+        <div class="header">Default</div>
+        <p>default</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -32,6 +39,9 @@ export default {
   },
   created: function() {
     this.getService();
+  },
+  mounted: function() {
+    this.unremind();
   },
   watch: {
     '$route.path': function() {

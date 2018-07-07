@@ -17,13 +17,13 @@
     </div>
     
     <div class="ui hidden divider"></div>
-    <a v-for="entry in services" 
-        :href="entry.route" 
+    <div v-for="entry in services" 
+        @click="Go(entry.route)" 
         class="ui dropdown item" 
         style="text-align: center; font-size: 1.2rem;">
       <i class="angle right icon"></i>
       {{ entry.service }}
-    </a>
+    </div>
     
   </div> 
 </template>
@@ -37,6 +37,13 @@
       return {
         userImg: userImg,
         userNone: userNone
+      }
+    },
+    methods: {
+      Go: function(_next) {
+        this.$router.push({
+          path: _next
+        })
       }
     },
     props: {

@@ -19,6 +19,7 @@ import UserRelease from '@/components/UserRelease'
 import UserConferenceList from '@/components/UserConferenceList'
 import UserRegistrationList from '@/components/UserRegistrationList'
 import UserPaperList from '@/components/UserPaperList'
+import UserCollectionList from '@/components/UserCollectionList'
 
 Vue.use(Router)
 
@@ -68,6 +69,10 @@ export default new Router({
     {
       path: '/user/:type/:id/conference',
       component: UserConferenceList
+    },
+    {
+      path: '/user/:type/:id/collection',
+      component: UserCollectionList
     },
     {
       path: '/user/:type/:id/registration',
