@@ -154,7 +154,7 @@
 
                 <div class="required field" style="display: inline">
                             <span class="required ui black button fileinput-button">
-                                <span>选择相关文件</span>
+                                <span>上传法人照片</span>
                                 <input type="file" @change="uploading($event)" name="file"/>
                             </span>
                     <div class="ui left pointing red basic label" style="display:none;position: absolute" ref="">

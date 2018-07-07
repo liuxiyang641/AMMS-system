@@ -1,93 +1,93 @@
 <template>
-    <div class="modal-content">
-        <div class="modal-header text-center">
-            <h2 class="modal-title">
-                {{title}}&nbsp;&nbsp;&nbsp;&nbsp;
-                <b-badge ref="mbadge" :variant="variant_class">
-                  {{status}}
-                </b-badge>
-            </h2>
-		      	<span v-if="Session.login() && Session.individualUser()">
-		      		<button v-if="!favorite" 
-                  class="ui labeled basic button" 
-                  @click="ChangeUserFavorite">
-                <i class="empty star icon"></i>
-                收藏
-              </button>
-		      		<button v-else 
-                class="ui labeled basic button" 
-                @click="ChangeUserFavorite">
-                <i class="star icon"></i>
-                取消收藏
-              </button>
-		      	</span>
-        </div>
-        <div class="modal-body">
-            <b-container>
-                <!--会议简介-->
-                <b-row>
-                    <h4><i class="info circle icon"></i>会议简介</h4>
-                    <p class="lead">&nbsp;&nbsp;{{introduction===''?'暂无简介':introduction}}</p>
-                </b-row>
-                <!--征文信息-->
-                <b-row>
-                    <h4><i class="file text icon"></i>征文信息</h4>
-                    <p class="lead">&nbsp;&nbsp;{{essay_info===''?'暂无简介':essay_info}}</p>
-                </b-row>
-                <!--相关日期-->
-                <b-row>
-                    <h4> <i class="calendar outline icon"></i>会议相关日期</h4>
-                    <p style="width: 100%">
-                        <b-table striped hover bordered :items="items" :fields="fields" style="width: 40%"></b-table>
-                    </p>
-                </b-row>
-                <!--论文模板-->
-                 <b-row>
-                    <h4><i class="calendar icon"></i>论文模板</h4>
-                    <p>
-                    <form action='http://192.144.136.166:4040/download'
-                          method='post'
-                           encType="multipart/form-data">
-                        <input v-model="confId" type="text" name="ConferenceID_Download" hidden/>
-                        <input type='submit' v-if="paper_template_url" :value='paper_template_url'/>
-                    </form>
-                    </p>
-                </b-row>
-
-
-                <!--日程安排-->
-                <b-row>
-                    <h4><i class="calendar icon"></i>日程安排</h4>
-                    <br/>
-                    <p class="lead"> &nbsp;&nbsp;{{schedule===''?'暂无简介':schedule}}</p>
-                </b-row>
-                <!--组织机构-->
-                <b-row>
-                    <h4><i class="university icon"></i>主办单位</h4>
-                    <br/>
-                    <p class="lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
-                </b-row>
-                <!--会议地点-->
-                <b-row>
-                    <h4><i class="map signs icon"></i>会议地点</h4>
-                    <br/>
-                    <p class="lead"> &nbsp;&nbsp;{{address===''?'暂无简介':address}}</p>
-                </b-row>
-                <!--住宿交通-->
-                <b-row>
-                    <h4><i class="compass icon"></i>住宿与交通</h4>
-                    <br/>
-                    <p class="lead"> &nbsp;&nbsp;{{accommodation_transportation===''?'暂无简介':accommodation_transportation}}</p>
-                </b-row>
-                <!--联系方式-->
-                <b-row>
-                    <h4><i class="mail icon"></i>联系方式</h4>
-                    <br/>
-                    <address style="width: 100%">
-                        <span class="lead">&nbsp;&nbsp;{{contact_us===''?'暂无简介':contact_us}}</span>
-                    </address>
-                </b-row>
-            </b-container>
+    <div class="ui container">
+        <h1 class="ui header">
+            {{title}}
+            <span v-if="Session.login() && Session.individualUser()" class="right floated star">
+            <i class="empty heart icon" v-if="!favorite"
+               @click="ChangeUserFavorite"></i>
+            <i class="heart icon red" v-else
+               @click="ChangeUserFavorite"></i>
+            </span>
+        </h1>
+        <h4 class="ui inverted divider"></h4>
+        <div class="ui grid">
+            <div class="ten wide column">
+                <div class="ui piled segment">
+                    <div class="ui blue ribbon label huge">
+                        <i class="info icon"></i>会议简介
+                    </div>
+                    <div class="content">
+                        <br/>
+                        <p class="lead">{{introduction===''?'暂无简介':introduction}}</p>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <div class="ui blue ribbon label huge">
+                        <i class="file text icon"></i>征文信息
+                    </div>
+                    <!--<h2 class="ui header"><i class="file text icon"></i>征文信息</h2>-->
+                    <div class="content">
+                        <br/>
+                        <p class="lead">{{introduction===''?'暂无简介':introduction}}</p>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"><i class="calendar icon"></i>日程安排</h2>-->
+                    <div class="ui blue ribbon label huge">
+                        <i class="calendar icon"></i>日程安排
+                    </div>
+                    <div class="content scroll">
+                        <br/>
+                        <p class="lead" v-html="schedule===''?'暂无简介':schedule" style="white-space: pre-wrap"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="six wide column">
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"></h2>-->
+                    <div class="ui teal right ribbon label huge"><i class="calendar outline icon right"></i>会议相关日期</div>
+                    <div class="content" style="width: 100%">
+                        <br/>
+                        <b-table class="lead" striped hover bordered :items="items" :fields="fields" style="width: 100%"></b-table>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"><i class="university icon"></i>主办单位</h2>-->
+                    <div class="ui teal right ribbon label huge">
+                        <i class="university icon"></i>主办单位
+                    </div>
+                    <div class="content">
+                        <p class="lead"> &nbsp;&nbsp;{{institution===''?'暂无简介':institution}}</p>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"><i class="map signs icon"></i>会议地点</h2>-->
+                    <div class="ui teal right ribbon label huge">
+                        <i class="map signs icon"></i>会议地点
+                    </div>
+                    <div class="content">
+                        <p class="lead">&nbsp;&nbsp;{{address===''?'暂无简介':address}}}</p>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"><i class="compass icon"></i>住宿与交通</h2>-->
+                    <div class="ui teal right ribbon label huge">
+                        <i class="compass icon"></i>住宿与交通
+                    </div>
+                    <div class="content">
+                        <p class="lead"> &nbsp;&nbsp;{{accommodation_transportation===''?'暂无简介':accommodation_transportation}}</p>
+                    </div>
+                </div>
+                <div class="ui piled segment">
+                    <!--<h2 class="ui header"><i class="mail icon"></i>联系方式</h2>-->
+                    <div class="ui teal right ribbon label huge">
+                        <i class="mail icon"></i>联系方式
+                    </div>
+                    <div class="content">
+                        <p class="lead">&nbsp;&nbsp;{{contact_us===''?'暂无简介':contact_us}}</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -157,11 +157,12 @@
         margin-bottom: 20px;
     }
     p {
-        margin-top: 0.7rem;
-        margin-bottom: 2.0rem;
+        margin-top: 0.2rem;
+        margin-bottom: 1.0rem;
         width: 100%;
+        /*text-indent: 2rem;*/
     }
     i{
-        color: #603811;
+        /*color: #603811;*/
     }
 </style>

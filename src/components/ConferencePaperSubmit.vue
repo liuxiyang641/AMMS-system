@@ -141,11 +141,11 @@
                     }
                     else reject('upload failed');
                   })
-              })            
+              })
             },
             updateContribute: function(updateParam) {
                  this.Axios.post(
-                      'http://193.112.111.199:9090/modify_contribution', 
+                      'http://193.112.111.199:9090/modify_contribution',
                       querystring.stringify(updateParam),
                       {
                         headers: {
@@ -224,7 +224,7 @@
               if(if_file) {
                 file_data = new FormData();
                 file_data.append('UPLOAD', this.file);
-                file_data.append('conference_id', this.$route.params.id); 
+                file_data.append('conference_id', this.$route.params.id);
                 updateParam.if_update_file = '1';
               }
               this.remind({
@@ -235,7 +235,7 @@
               })
 
               if(!if_file) {
-                this.updateContribute(updateParam); 
+                this.updateContribute(updateParam);
               }
               else {
                 this.uploadPost(file_data).then(() => {
@@ -246,7 +246,7 @@
               }
             },
             submit: function(event) {
-                event.preventDefault(); 
+                event.preventDefault();
                 this.hideAllMessage();
                 //检查必填项
                 if (!this.checkSubmission()) {
@@ -307,7 +307,7 @@
                       user_ids: this.Session.get('user_id')
                   };
                   this.Axios.post(
-                      'http://193.112.111.199:9090/contribute', 
+                      'http://193.112.111.199:9090/contribute',
                       querystring.stringify(submissionParam),
                       {
                         headers: {

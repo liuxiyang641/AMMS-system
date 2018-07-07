@@ -100,24 +100,24 @@
           })
        },
        download: function(paper_id) {
-         this.ajaxPromise({
-            url: 'http://193.112.111.199:9090/download', 
-            type: "POST",
-            data: {
-              paper_id: parseInt(paper_id) 
-            },
-            xhrFields: {
-              withCredentials: true
-            },
-            crossDomain: true
-          })
-         .then(res => {
-            window.location.href = res;
-         })
-         .catch(err => {
-           console.log(err);
-         })
-      }
+           this.ajaxPromise({
+               url: 'http://193.112.111.199:9090/download',
+               type: "POST",
+               data: {
+                   paper_id: parseInt(paper_id)
+               },
+               xhrFields: {
+                   withCredentials: true
+               },
+               crossDomain: true
+           })
+               .then(res => {
+                   window.location.href = res;
+               })
+               .catch(err => {
+                   console.log(err);
+               })
+       }
     },
     created: function () {
       this.GetPaper();
