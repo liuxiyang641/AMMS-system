@@ -1,15 +1,15 @@
 <template>
   <div>
-    <users_list></users_list>
+    <personal_meeting_registration></personal_meeting_registration>
   </div>
 </template>
 
 <script>
-import users_list from './components/users_list'
+import personal_meeting_registration from './components/personal_meeting_registration'
 export default {
   name: 'App',
   components:{
-  users_list,
+    personal_meeting_registration,
   }
 }
 </script>

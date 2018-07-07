@@ -1,7 +1,7 @@
 <template>
 	<div class="ui form" >
-	
-	
+
+
 		<div><br />
 				<div class="required field" style="display:inline">
 					<label>1.参会人姓名:</label>
@@ -48,8 +48,9 @@
 		<br />
 		<div>
 			<div>
-				<label>5.论文ID（投稿用户必填）:</label>
-				<input type="text" v-model="form.paperid" name="essay_id" style="width:150px; height:20px">
+				<label>5.已投稿论文:</label>
+				<textarea  v-html="paper_name" style="width:500px; height:auto" readonly="readonly" >
+        </textarea>
 			</div>
 			<br />
 			<div>
@@ -92,26 +93,27 @@ export default{
 			userid:'1',
 			url:'1',
 			conferenceid:'1',
-			paperid:'',
 			ifAccommodation:'',
 			participatename:'',
 			participatesex:'',
 			remark:'',
 
-			}}},
-	methods: { 
-		  
+			},
+			paper_name:''
+			}},
+	methods: {
+
           getFile(event) {
             this.form.file = event.target.files[0];
             console.log(this.file);
           },
           submitForm(url1) {
-		    this.form.url=url1;
-			this.form.userid=this.Session.get('user_id');
-			this.form.confererceid=this.$params.id;
-            event.preventDefault();
-			console.log(this.form);
-			$.post('http://192.144.153.164:9000/registerconference',this.form,function(data){console.log(data)})
+		      this.form.url=url1;
+			    /*this.form.userid=this.Session.get('user_id');
+			    this.form.confererceid=this.$params.id;*/
+			    event.preventDefault();
+			    console.log(this.form);
+			    $.post('http://192.144.153.164:9000/registerconference',this.form,function(data){console.log(data)})
 		  },
 		  getUrl(event){
 		  	$("#form1").ajaxForm((data) => {
@@ -120,6 +122,25 @@ export default{
 				else this.submitForm(data)
 				})
 			}
-		}
+		},
+  created: function () {
+    axios.get('http://192.144.153.164:9000/paper/conference/user?conferenceid=235&userid=22',{
+      params:{
+        /*conferenceid:this.$params.id,
+        userid:this.Session.get('user_id')*/
+        conferenceid:235,
+        userid:22
+      }
+    }).then((response)=>{
+      console.log(response.data[3]);
+      for(var i=0;i<response.data.length;i++)
+      {
+        this.paper_name=this.paper_name+response.data[i]+'\n';
+      }
+    }).catch((err)=>{
+      console.log(err);
+    });
+
+  }
 	}
 </script>
