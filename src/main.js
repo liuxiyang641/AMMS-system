@@ -14,13 +14,12 @@ import Axios from './js/axiosService.js'
 import reminder from './js/reminder.js'
 import bModal from 'bootstrap-vue/es/components/modal/modal'
 import bModalDirective from 'bootstrap-vue/es/directives/modal/modal'
+import 'laydate/laydate/laydate.js'
 
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Vue.prototype.Session = Session
 Vue.prototype.ajaxPromise = ajaxPromiser.ajaxPromise
-Vue.prototype.$axios=axios;
-Vue.prototype.$http=axios;
 Vue.prototype.Axios = Axios.Axios
 Vue.prototype.remind = reminder.remind
 Vue.prototype.unremind = reminder.normal

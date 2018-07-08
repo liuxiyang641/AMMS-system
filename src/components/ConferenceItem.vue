@@ -1,17 +1,18 @@
 <template>
-  <a @click="toConfInfo(conference.conference_id)" v-bind:class="'ui ' + ((parseInt(conference.status) & 1) ? 'red' : 'green') + ' fluid card'">
-      <div class="center aligned content">
-        <div class="header"> {{ conference.title }} </div>
-        <div class="meta"> {{ conference.institution }} </div>
-        <div class="description"> {{ conference.introduction }} </div>
-      </div>
-      <div class="center aligned extra content">
-        <i class="purple calendar check icon"></i> 
-        <span> {{ conference.start_time.split('T')[0] }} </span>
-        <i v-bind:class="((parseInt(conference.status) & 1) ? 'red' : 'green') + ' circle icon'"></i> 
-        <span> {{ text_stat[parseInt(conference.status)] }} </span>
-      </div>
-  </a>
+  <a @click="toConfInfo(conference.conference_id)" class="ui fluid card">
+    <div class="center aligned content">
+      <div class="header"> {{ conference.title }} </div>
+      <div class="meta"> {{ conference.institution }} </div>
+      <div class="description"> {{ conference.introduction.length > 100 ? (conference.introduction.substr(0,100) + '......') : conference.introduction }} </div>
+    </div>
+    <div class="center aligned extra content">
+      <i class="purple calendar check icon"></i> 
+      {{ conference.start_time }}
+      <i :class="((parseInt(conference.status) & 1) ? 'red' : 'green') + ' circle icon'"></i> 
+      {{ text_stat[parseInt(conference.status)] }}
+    </div>
+</a>
+
 </template>
 
 <script>

@@ -15,7 +15,7 @@
             请填写联系方式
         </div>
 			</div>
-			<div class="inline fields">
+			<div class="required inline fields">
 				<label for="sex">性别</label>
 				<div class="field">
 					<div class="ui radio checkbox">
@@ -29,8 +29,11 @@
        				<label>女</label>
 					</div>
 				</div>
+        <div class="ui left pointing red basic label" ref="participatesex" style="display:none">
+            请选择性别
+        </div>
       </div>
-      <div class="inline fields">
+      <div class="required inline fields">
 				<label for="chose">是否需要预约住宿</label>
 				<div class="field">
 					<div class="ui radio checkbox">
@@ -44,14 +47,20 @@
        				<label>否</label>
 					</div>
 				</div>
+        <div class="ui left pointing red basic label" ref="ifAccommodation" style="display:none">
+            请选择住宿情况
+        </div>
       </div>
 			<div class="field">
 				<label>已投稿论文</label>
         <textarea v-html="paper_name" readonly="readonly"></textarea>
 			</div>
-			<div class="inline field">
+			<div class="required field">
 				<label>备注（未投稿用户请填：聆听参会）</label>
         <textarea v-model="form.remark" name="others"></textarea>
+        <div class="ui pointing red basic label" ref="remark" style="display:none">
+            请填写参会备注
+        </div>
 			</div>
       <div class="inline required field v-centered">
         <label>注册缴费凭证</label>
@@ -108,7 +117,7 @@ export default {
       this.fileobj = event.target.files[0];
     },
     check() {
-       var required = ['participatename', 'phone', 'fileobj'];
+       var required = ['participatename', 'phone', 'fileobj', 'participatesex', 'remark', 'ifAccommodation'];
        for(var i = 0; i < required.length; i++) {
           if(required[i] != 'fileobj' && !this.form[required[i]]) {
             this.$refs[required[i]].style.display = '';

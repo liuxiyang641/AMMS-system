@@ -25,7 +25,7 @@
                 <td>{{paper.paperauthor}}</td>
                 <td v-html="showStatus(paper.status)"></td>
                 <td>
-                    <a :href="paper.paperurl" style="color: black"><i class="download icon"></i></a>
+                    <a @click="download(paper.paperid)" style="color: black"><i class="download icon"></i></a>
                 </td>
                 <td>
                     <button class="ui black basic button" v-if="paper.status===1||paper.status===3" @click="showModal(paper.paperid,paper.status)">评审</button>
@@ -82,6 +82,7 @@
 
 <script>
 import axios from 'axios';
+import querystring from 'querystring'
 
 export default {
 	name: 'ConferenceReview',
@@ -148,6 +149,14 @@ export default {
                     return'未通过'
             }
         },
+        download(id) {
+        axios.post('http://193.112.111.199:9090/download', querystring.stringify({paper_id: parseInt(id)}))
+                .then(res => {
+              console.log(res); 
+              window.location.href = res.data;
+          })
+
+        },
         postReviewResults:function(){
             if (this.reviewResult.resultStatus!==null){      //选择了评审结果
                 let postData;
@@ -164,7 +173,7 @@ export default {
                         status:this.reviewResult.resultStatus,
                     }
                 }
-                axios.put('http://192.144.153.164:9000/paper/review', postData).then(
+                               axios.put('http://192.144.153.164:9000/paper/review', postData).then(
                     (res)=>{
                         //评审结果发送
                         //修改相应的paper状态

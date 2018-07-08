@@ -12,10 +12,6 @@
           最新会议
           <i class="right arrow icon"></i>
         </div>
-        <div class="ui huge primary button" v-if="Session.individualUser()">
-          在线投稿
-          <i class="right arrow icon"></i>
-        </div>
         <div class="ui huge primary button" v-if="Session.instituteUser()" @click="toRelease">
           发布会议
           <i class="right arrow icon"></i>

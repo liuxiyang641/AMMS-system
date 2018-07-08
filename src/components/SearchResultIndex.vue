@@ -1,10 +1,13 @@
 <template>
   <div class="ui container">
-   <SearchPanel></SearchPanel>
-   <div class="ui three cards">
-    <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem>
+    <SearchPanel></SearchPanel>
+  <div class="ui piled segment">
+    <div class="ui red ribbon huge label">{{Math.min(currentPage*perPage,conferences.length)}} / {{conferences.length}}条搜索结果</div>
+   <div class="ui three cards v-centered">
+     <ConferenceItem v-for="conference in page" :key="conference.conference_id" :conference="conference"></ConferenceItem> 
    </div>
    <b-pagination class="mt-4" :total-rows="conferences.length" :per-page="perPage" v-model="currentPage"></b-pagination>
+  </div>
   </div>
 </template>
 

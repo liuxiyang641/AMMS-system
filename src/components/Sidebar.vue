@@ -2,7 +2,9 @@
   <div class="ui left fixed inverted vertical menu v-centered" 
     :style="'top: 5.9rem; bottom:0; border-radius: 0; padding-top: ' + (Session.login() ? '2.5rem;':'10rem')">
 
-    <img class="ui centered small circular image"
+    <img @click="toUser"
+       style="cursor:pointer"
+       class="ui centered small circular image"
       :src="Session.login() ? userImg : userNone" />
     
     <div class="ui hidden divider"></div>
@@ -43,6 +45,11 @@
       Go: function(_next) {
         this.$router.push({
           path: _next
+        })
+      },
+      toUser() {
+        this.$router.push({
+          path: '/user/' + this.Session.get('type') + '/' + this.Session.get('user_id') + '/info'
         })
       }
     },

@@ -1,11 +1,11 @@
 <template>
-  <div class="ui top fixed large inverted menu" style="border-radius: 0; margin: 0;">
+  <div id="navbar" class="ui top fixed large inverted menu" style="border-radius: 0; margin: 0;">
     <div class="item">
       <div class="ui logo shape">
         <img src="../assets/logo.png" />
       </div>
     </div>
-    <div class="item" @click="toIndex()">
+    <div style="cursor:pointer" class="item" @click="toIndex()">
       <strong>ACMS会议管理系统</strong>
     </div>
     <div class="item">
@@ -100,6 +100,12 @@ export default {
       this.$router.push({
         path: '/user/' + this.Session.get('type') + '/' + this.Session.get('user_id') + '/info'
       })
+    },
+    drop() {
+      console.log(1);
+      $('#navbar .ui.dropdown').dropdown({
+        transition: 'drop'
+      });
     },
     navSearch: function() {
       var _this = this;

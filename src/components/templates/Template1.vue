@@ -1,19 +1,19 @@
 <template>
     <div class="ui container">
-        <h1 class="ui header">
+        <h2 class="ui header">
             {{title}}
-            <span v-if="Session.login() && Session.individualUser()" class="right floated star">
+            <span style="cursor:pointer" v-if="Session.login() && Session.individualUser()" class="right floated star">
             <i class="empty heart icon" v-if="!favorite"
                @click="ChangeUserFavorite"></i>
             <i class="heart icon red" v-else
                @click="ChangeUserFavorite"></i>
             </span>
-        </h1>
+        </h2>
         <h4 class="ui inverted divider"></h4>
         <div class="ui grid">
             <div class="ten wide column">
                 <div class="ui piled segment">
-                    <div class="ui blue ribbon label huge">
+                    <div class="ui blue ribbon label big">
                         <i class="info icon"></i>会议简介
                     </div>
                     <div class="content">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
                 <div class="ui piled segment">
-                    <div class="ui blue ribbon label huge">
+                    <div class="ui blue ribbon label big">
                         <i class="file text icon"></i>征文信息
                     </div>
                     <!--<h2 class="ui header"><i class="file text icon"></i>征文信息</h2>-->
@@ -33,7 +33,7 @@
                 </div>
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"><i class="calendar icon"></i>日程安排</h2>-->
-                    <div class="ui blue ribbon label huge">
+                    <div class="ui blue ribbon label big">
                         <i class="calendar icon"></i>日程安排
                     </div>
                     <div class="content scroll">
@@ -45,7 +45,8 @@
             <div class="six wide column">
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"></h2>-->
-                    <div class="ui teal right ribbon label huge"><i class="calendar outline icon right"></i>会议相关日期</div>
+                    <div class="ui teal right ribbon label big">
+                      <i class="calendar outline icon right"></i>会议相关日期</div>
                     <div class="content" style="width: 100%">
                         <br/>
                         <b-table class="lead" striped hover bordered :items="items" :fields="fields" style="width: 100%"></b-table>
@@ -53,7 +54,7 @@
                 </div>
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"><i class="university icon"></i>主办单位</h2>-->
-                    <div class="ui teal right ribbon label huge">
+                    <div class="ui teal right ribbon label big">
                         <i class="university icon"></i>主办单位
                     </div>
                     <div class="content">
@@ -62,7 +63,7 @@
                 </div>
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"><i class="map signs icon"></i>会议地点</h2>-->
-                    <div class="ui teal right ribbon label huge">
+                    <div class="ui teal right ribbon label big">
                         <i class="map signs icon"></i>会议地点
                     </div>
                     <div class="content">
@@ -71,7 +72,7 @@
                 </div>
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"><i class="compass icon"></i>住宿与交通</h2>-->
-                    <div class="ui teal right ribbon label huge">
+                    <div class="ui teal right ribbon label big">
                         <i class="compass icon"></i>住宿与交通
                     </div>
                     <div class="content">
@@ -80,7 +81,7 @@
                 </div>
                 <div class="ui piled segment">
                     <!--<h2 class="ui header"><i class="mail icon"></i>联系方式</h2>-->
-                    <div class="ui teal right ribbon label huge">
+                    <div class="ui teal right ribbon label big">
                         <i class="mail icon"></i>联系方式
                     </div>
                     <div class="content">
