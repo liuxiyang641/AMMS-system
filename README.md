@@ -1,6 +1,7 @@
 # academic_meeting_manage_system_frontend
 
-> 学术会议管理平台前端项目
+> 学术会议管理平台前端项目  
+Copyright @北航15级软件学院小学期团队**3102f0e5**
 
 ## Build Setup
 
